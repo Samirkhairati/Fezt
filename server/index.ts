@@ -1,56 +1,77 @@
-// PACKAGES
+// PACKAGES ===============================
 import express from 'express';
-// import dotenv from 'dotenv';
-// import cookieParser from 'cookie-parser';
-// import cors from 'cors';
+import dotenv from 'dotenv';
+import cors from 'cors';
 import path from 'path';
+import mongo from './config/mongo';
+import cookieSession from 'cookie-session';
+import authRoutes from './routes/authRoutes';
+import passport from "./config/passport";
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
-// UTILS
-// import connectDB from './config/db.js';
-// import userRoutes from './routes/userRoutes.js';
-// import categoryRoutes from './routes/categoryRoutes.js';
-// import productRoutes from './routes/productRoutes.js';
-// import uploadRoutes from "./routes/uploadRoutes.js";
-// import orderRoutes from './routes/orderRoutes.js';
-// import cloudinarySetup from './config/cloudinary.js';
 
-// SETUP
-// dotenv.config();
-// connectDB();
-// cloudinarySetup();
+
+// SETUP ===============================
 const app = express();
 const location = path.resolve();
+dotenv.config();
+mongo().catch(console.error);
 
-// MIDDLEWARE
+// MIDDLEWARE ===============================
 app.use(express.json());
-// app.use(cookieParser());
-// app.use(express.urlencoded({ extended: true }));
-// app.use(cors(
-//     {
-//         origin: true,
-//         credentials: true,
-//     }
-// ));
+app.use(
+    cookieSession({
+        name: "session",
+        keys: ["fezt"],
+        maxAge: 24 * 60 * 60 * 100,
+    })
+); app.use(cors(
+    {
+        origin: true,
+        credentials: true
+    }
+));
 
-// ROUTES
-// app.use("/api/users", userRoutes);
-// app.use("/api/category", categoryRoutes);
-// app.use("/api/products", productRoutes);
-// app.use("/api/upload", uploadRoutes);
-// app.use("/api/orders", orderRoutes);
-// app.use("/api/upload", uploadRoutes);
+console.log(process.env.CLIENT_ID);
+passport.use(
+    new GoogleStrategy(
+        {
+            clientID: process.env.CLIENT_ID,
+            clientSecret: process.env.CLIENT_SECRET,
+            callbackURL: "/auth/google/callback",
+            scope: ["profile", "email"],
+        },
+        function (accessToken: any, refreshToken: any, profile: any, callback: any) {
+            callback(null, profile);
+        }
+    )
+);
 
-// BUILD
+passport.serializeUser((user: any, done: any) => {
+    done(null, user);
+});
+
+passport.deserializeUser((user: any, done: any) => {
+    done(null, user);
+});
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
+app.use("/auth", authRoutes);
+
+
+// BUILD ===============================
 app.use(express.static(path.join(location, '../client/dist')));
 app.get('*', (req, res) => {
     res.sendFile(path.join(location, '../client/dist/index.html'));
 });
 
-// TEST
+// TEST ===============================
 app.get('/', (req, res) => {
     res.send(`API is running on port ${process.env.PORT}...`);
 })
-
 app.listen(process.env.PORT || 6969, () => {
     console.log(`Server running on port ${process.env.PORT || 6969}`);
 });
