@@ -4,3 +4,5 @@ server/node_modules
 server/.DS_store
 client/node_modules
 client/.DS_store
+server/dist
+client/dist
