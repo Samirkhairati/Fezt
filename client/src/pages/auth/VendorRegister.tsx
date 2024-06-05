@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
@@ -24,13 +25,13 @@ interface CreateVendor {
 function UserLogin() {
 
     const navigate = useNavigate();
-    const setUser = useStore(state => state.setUser);
+    const setVendor = useStore(state => state.setVendor);
     const queryClient = useQueryClient();
     const { register, handleSubmit, formState: { errors } } = useForm<CreateVendor>();
     const [imageSrc, setImageSrc] = useState<string>('https://filetandvine.com/wp-content/uploads/2015/11/buddy-placeholder-square.jpg?w=640');
     const [fileLoading, setFileLoading] = useState<boolean>(false);
 
-    //TODO: Add form validation 
+    //TODO: Add Vendor Register form validation 
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -52,16 +53,16 @@ function UserLogin() {
 
     const createVendor = async (data: CreateVendor) => {
         const response = await axios.post('/api/vendors', { ...data, image: imageSrc });
-        toast.success("Vendor created successfully.");
-        setUser(response.data);
-        navigate('/');
         return response.data;
     };
 
-    const { mutateAsync: createVendorMutation } = useMutation({
+    const { mutate: createVendorMutation, isPending } = useMutation({
         mutationFn: createVendor,
-        onSuccess: () => {
+        onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['vendors'] });
+            toast.success("Vendor created successfully.");
+            setVendor(data);
+            navigate('/');
         },
         onError: (error) => {
             console.log("Error creating vendor: ", error);
@@ -91,8 +92,7 @@ function UserLogin() {
                             className="cursor-pointer"
                             htmlFor="media"
                         >
-                            {fileLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            <span className="text-white">Upload Brand Logo</span>
+                            Upload Brand Logo
                             <input onChange={handleFileChange} accept="image/*" className="sr-only" id="media" name="media" type="file" />
                         </label>
                     </Button>
@@ -153,11 +153,13 @@ function UserLogin() {
                                 id="password"
                                 placeholder="**********"
                                 className="w-full"
+                                type="password"
                                 {...register("password", { required: true })}
                             />
                             {errors.password && <p className="text-red-500">Password is required</p>}
                         </div>
-                        <Button type="submit" className="bg-violet-700 w-full">
+                        <Button disabled={isPending} type="submit" className="bg-violet-700 w-full">
+                            {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                             Create New  Vendor Account
                         </Button>
                     </form>

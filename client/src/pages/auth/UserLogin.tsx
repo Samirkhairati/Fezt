@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useStore from "@/actions/store";
 import { useNavigate } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 
 interface CreateUser {
     name: string,
@@ -32,11 +33,11 @@ function UserLogin() {
     const navigate = useNavigate();
     const setUser = useStore(state => state.setUser);
     const queryClient = useQueryClient();
-    const { register, handleSubmit, formState: { errors } } = useForm<CreateUser>();
+    const { register, handleSubmit, formState: { errors, isLoading } } = useForm<CreateUser>();
     const [google, setGoogle] = useState<boolean>(false);
     const [userInfo, setUserInfo] = useState<GoogleUser>({ email: '', photoURL: '' });
 
-    //TODO: Add form validation 
+    //TODO: Add User Login form validation 
 
     const handleGoogleLogin = async () => {
         try {
@@ -65,17 +66,17 @@ function UserLogin() {
 
     const createUser = async (data: CreateUser) => {
         const response = await axios.post('/api/users', { ...data, email: userInfo.email, image: userInfo.photoURL });
-        console.log("User created: ", response.data);
-        toast.success("User created successfully.");
-        setUser(response.data);
-        navigate('/');
         return response.data;
     };
 
     const { mutateAsync: createUserMutation } = useMutation({
         mutationFn: createUser,
-        onSuccess: () => {
+        onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['users'] });
+            console.log("User created: ", data);
+            toast.success("User created successfully.");
+            setUser(data);
+            navigate('/');
         },
         onError: (error) => {
             console.log("Error creating user: ", error);
@@ -153,7 +154,8 @@ function UserLogin() {
                             />
                             {errors.bits && <p className="text-red-500">BITS ID is required</p>}
                         </div>
-                        <Button type="submit" className="bg-slate-700 w-full">
+                        <Button disabled={isLoading} type="submit" className="bg-slate-700 w-full">
+                            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                             Submit
                         </Button>
                     </form>
