@@ -16,6 +16,8 @@ function Start() {
   // }
 
   useEffect(() => {
+    console.log('user', user)
+    console.log('vendor', vendor)
     if (user) {
       navigate('/home')
     } else if (vendor) {

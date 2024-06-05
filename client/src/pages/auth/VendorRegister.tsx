@@ -9,7 +9,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useStore from "@/actions/store";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Loader2 } from "lucide-react"
 
@@ -22,8 +22,7 @@ interface CreateVendor {
     password: string
 }
 
-function UserLogin() {
-
+function VendorRegister() {
     const navigate = useNavigate();
     const setVendor = useStore(state => state.setVendor);
     const queryClient = useQueryClient();
@@ -31,7 +30,9 @@ function UserLogin() {
     const [imageSrc, setImageSrc] = useState<string>('https://filetandvine.com/wp-content/uploads/2015/11/buddy-placeholder-square.jpg?w=640');
     const [fileLoading, setFileLoading] = useState<boolean>(false);
 
-    //TODO: Add Vendor Register form validation 
+    //TODO: Add Vendor Register form validation
+    //TODO: Add Forgot Password
+    //TODO: Add Verification Email
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -52,6 +53,7 @@ function UserLogin() {
     }
 
     const createVendor = async (data: CreateVendor) => {
+        toast.success("Creating Vendor...")
         const response = await axios.post('/api/vendors', { ...data, image: imageSrc });
         return response.data;
     };
@@ -66,6 +68,7 @@ function UserLogin() {
         },
         onError: (error) => {
             console.log("Error creating vendor: ", error);
+            toast.error(error.message)
         }
     });
 
@@ -73,9 +76,10 @@ function UserLogin() {
         createVendorMutation(data);
     };
 
+    //TODO: page breaking when enough page length (form validations)
+
     return (
-        <div className="relative flex h-screen w-full items-center justify-center">
-            <div className="absolute inset-0 bg-[url('/splash.png')] bg-cover bg-center" />
+        <div className="relative flex min-h-screen pb-10 w-full items-center justify-center bg-[url('/splash.png')] bg-cover bg-center">
             <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
             <div className="flex flex-col items-center gap-8 relative z-10">
                 <div className="flex flex-col items-center gap-8 relative z-10 w-full max-w-md px-4">
@@ -158,6 +162,7 @@ function UserLogin() {
                             />
                             {errors.password && <p className="text-red-500">Password is required</p>}
                         </div>
+                        <p className="text-white">Already have an account? <Link to="/login/vendor" className="text-violet-400">Sign in</Link></p>
                         <Button disabled={isPending} type="submit" className="bg-violet-700 w-full">
                             {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                             Create New  Vendor Account
@@ -169,4 +174,4 @@ function UserLogin() {
     )
 }
 
-export default UserLogin
+export default VendorRegister

@@ -29,7 +29,6 @@ interface GoogleUser {
 }
 
 function UserLogin() {
-
     const navigate = useNavigate();
     const setUser = useStore(state => state.setUser);
     const queryClient = useQueryClient();
@@ -37,7 +36,8 @@ function UserLogin() {
     const [google, setGoogle] = useState<boolean>(false);
     const [userInfo, setUserInfo] = useState<GoogleUser>({ email: '', photoURL: '' });
 
-    //TODO: Add User Login form validation 
+    //TODO: Add User Login form validation
+    //TODO: Add email confirmation
 
     const handleGoogleLogin = async () => {
         try {
@@ -88,8 +88,7 @@ function UserLogin() {
     };
 
     return (
-        <div className="relative flex h-screen w-full items-center justify-center">
-            <div className="absolute inset-0 bg-[url('/splash.png')] bg-cover bg-center" />
+        <div className="relative flex min-h-screen pb-10 w-full items-center justify-center bg-[url('/splash.png')] bg-cover bg-center">
             <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
             <div className="flex flex-col items-center gap-8 relative z-10">
                 <div className="flex flex-col items-center gap-8 relative z-10 w-full max-w-md px-4">
@@ -156,7 +155,7 @@ function UserLogin() {
                         </div>
                         <Button disabled={isLoading} type="submit" className="bg-slate-700 w-full">
                             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            Submit
+                            Login as Student
                         </Button>
                     </form>
                 </div>
