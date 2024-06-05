@@ -1,17 +1,16 @@
 import { Document, Schema, model } from 'mongoose';
 
-export interface IUser extends Document {
+export interface IVendor extends Document {
     _id: string;
     name?: string;
     email: string;
     image?: string;
-    phone?: string;
     address?: string;
-    bits?: string;
-    balance?: number;
+    phone?: string;
+    password?: string;
 }
 
-const userSchema: Schema<IUser> = new Schema({
+const vendorSchema: Schema<IVendor> = new Schema({
     name: {
         type: String,
         required: false,
@@ -32,16 +31,12 @@ const userSchema: Schema<IUser> = new Schema({
         type: String,
         required: false,
     },
-    bits: {
+    password: {
         type: String,
-        required: false,
-    },
-    balance: {
-        type: Number,
         required: false,
     },
 }, { timestamps: true });
 
-const User = model<IUser>('User', userSchema);
+const Vendor = model<IVendor>('Vendor', vendorSchema);
 
-export default User;
+export default Vendor;

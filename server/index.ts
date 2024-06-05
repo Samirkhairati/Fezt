@@ -8,11 +8,7 @@ import mongo from './config/mongo.config';
 
 // UTILS ==========================================
 import userRoutes from './routes/user.routes';
-// import categoryRoutes from './routes/categoryRoutes.js';
-// import productRoutes from './routes/productRoutes.js';
-// import uploadRoutes from "./routes/uploadRoutes.js";
-// import orderRoutes from './routes/orderRoutes.js';
-// import cloudinarySetup from './config/cloudinary.js';
+import vendorRoutes from './routes/vendor.routes';
 
 // SETUP ==========================================
 dotenv.config();
@@ -33,11 +29,7 @@ app.use(cors(
 
 // ROUTES ==========================================
 app.use("/api/users", userRoutes);
-// app.use("/api/category", categoryRoutes);
-// app.use("/api/products", productRoutes);
-// app.use("/api/upload", uploadRoutes);
-// app.use("/api/orders", orderRoutes);
-// app.use("/api/upload", uploadRoutes);
+app.use("/api/vendors", vendorRoutes);
 
 // BUILD ==========================================
 app.use(express.static(path.join(location, '../client/dist')));

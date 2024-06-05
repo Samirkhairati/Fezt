@@ -12,11 +12,7 @@ const path_1 = __importDefault(require("path"));
 const mongo_config_1 = __importDefault(require("./config/mongo.config"));
 // UTILS ==========================================
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
-// import categoryRoutes from './routes/categoryRoutes.js';
-// import productRoutes from './routes/productRoutes.js';
-// import uploadRoutes from "./routes/uploadRoutes.js";
-// import orderRoutes from './routes/orderRoutes.js';
-// import cloudinarySetup from './config/cloudinary.js';
+const vendor_routes_1 = __importDefault(require("./routes/vendor.routes"));
 // SETUP ==========================================
 dotenv_1.default.config();
 (0, mongo_config_1.default)();
@@ -32,11 +28,7 @@ app.use((0, cors_1.default)({
 }));
 // ROUTES ==========================================
 app.use("/api/users", user_routes_1.default);
-// app.use("/api/category", categoryRoutes);
-// app.use("/api/products", productRoutes);
-// app.use("/api/upload", uploadRoutes);
-// app.use("/api/orders", orderRoutes);
-// app.use("/api/upload", uploadRoutes);
+app.use("/api/vendors", vendor_routes_1.default);
 // BUILD ==========================================
 app.use(express_1.default.static(path_1.default.join(location, '../client/dist')));
 app.get('*', (req, res) => {

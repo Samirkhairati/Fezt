@@ -8,18 +8,34 @@ const loginUser = handler(async (req: Request, res: Response) => {
     const user: IUser | null = await User.findOne({ email: req.body.email });
     if (user) {
         generateToken(res, user._id)
-    } else {
-        const newUser = new User({
-            name: req.body.name,
-            email: req.body.email,
-            image: req.body.image,
-        });
-        const createdUser = await newUser.save();
-        generateToken(res, createdUser._id)
-        res.json(createdUser)
-    }
+        res.json(user)
+    } else res.json();
 
 }, '@loginUser ERROR: ');
+
+const createUser = handler(async (req: Request, res: Response) => {
+    const newUser: IUser = new User({
+        name: req.body.name,
+        email: req.body.email,
+        image: req.body.image,
+        phone: req.body.phone,
+        address: req.body.address,
+        bits: req.body.bits,
+        balance: 12000,
+    });
+    const createdUser = await newUser.save();
+    generateToken(res, createdUser._id)
+    res.json({
+        name: createdUser.name,
+        email: createdUser.email,
+        image: createdUser.image,
+        phone: createdUser.phone,
+        address: createdUser.address,
+        bits: createdUser.bits,
+        _id: createdUser._id,
+        balance: createdUser.balance,
+    })
+}, '@creatUser ERROR: ');
 
 const logoutUser = handler(async (req: Request, res: Response) => {
 
@@ -31,4 +47,4 @@ const logoutUser = handler(async (req: Request, res: Response) => {
 
 }, '@logoutUser ERROR: ')
 
-export { loginUser, logoutUser }
+export { loginUser, logoutUser, createUser }
