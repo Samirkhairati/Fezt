@@ -12,7 +12,7 @@ function Start() {
     //   console.log(result)
     //   await axios.post('/api/users/logout')
     // }
-
+    //TODO: Better home page
 
     return (
         <>
