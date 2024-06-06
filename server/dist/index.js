@@ -13,6 +13,7 @@ const mongo_config_1 = __importDefault(require("./config/mongo.config"));
 // UTILS ==========================================
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
 const vendor_routes_1 = __importDefault(require("./routes/vendor.routes"));
+const club_routes_1 = __importDefault(require("./routes/club.routes"));
 // SETUP ==========================================
 dotenv_1.default.config();
 (0, mongo_config_1.default)();
@@ -29,6 +30,7 @@ app.use((0, cors_1.default)({
 // ROUTES ==========================================
 app.use("/api/users", user_routes_1.default);
 app.use("/api/vendors", vendor_routes_1.default);
+app.use("/api/clubs", club_routes_1.default);
 // BUILD ==========================================
 app.use(express_1.default.static(path_1.default.join(location, '../client/dist')));
 app.get('*', (req, res) => {

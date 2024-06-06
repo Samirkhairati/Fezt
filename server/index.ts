@@ -9,6 +9,7 @@ import mongo from './config/mongo.config';
 // UTILS ==========================================
 import userRoutes from './routes/user.routes';
 import vendorRoutes from './routes/vendor.routes';
+import clubRoutes from './routes/club.routes';
 
 // SETUP ==========================================
 dotenv.config();
@@ -30,6 +31,7 @@ app.use(cors(
 // ROUTES ==========================================
 app.use("/api/users", userRoutes);
 app.use("/api/vendors", vendorRoutes);
+app.use("/api/clubs", clubRoutes);
 
 // BUILD ==========================================
 app.use(express.static(path.join(location, '../client/dist')));
