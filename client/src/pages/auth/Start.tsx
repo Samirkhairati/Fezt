@@ -19,7 +19,7 @@ function Start() {
     console.log('user', user)
     console.log('vendor', vendor)
     if (user) {
-      navigate('/home')
+      navigate('/user')
     } else if (vendor) {
       navigate('/vendor')
     } else {

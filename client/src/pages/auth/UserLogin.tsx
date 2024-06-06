@@ -38,6 +38,7 @@ function UserLogin() {
 
     //TODO: Add User Login form validation
     //TODO: Add email confirmation
+    //TODO: convert google popup to redirect
 
     const handleGoogleLogin = async () => {
         try {

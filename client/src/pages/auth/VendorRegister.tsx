@@ -76,8 +76,6 @@ function VendorRegister() {
         createVendorMutation(data);
     };
 
-    //TODO: page breaking when enough page length (form validations)
-
     return (
         <div className="relative flex min-h-screen pb-10 w-full items-center justify-center bg-[url('/splash.png')] bg-cover bg-center">
             <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />

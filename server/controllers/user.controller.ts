@@ -3,6 +3,8 @@ import handler from "../middleware/handler.middleware";
 import User, { IUser } from "../models/user.model";
 import generateToken from "../utils/token.util";
 
+//TODO: google access token check
+
 const loginUser = handler(async (req: Request, res: Response) => {
 
     const user: IUser | null = await User.findOne({ email: req.body.email });
