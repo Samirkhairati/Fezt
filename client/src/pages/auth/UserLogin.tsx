@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
@@ -71,7 +72,7 @@ function UserLogin() {
         return response.data;
     };
 
-    const { mutateAsync: createUserMutation } = useMutation({
+    const { mutate: createUserMutation } = useMutation({
         mutationFn: createUser,
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['users'] });
@@ -80,8 +81,8 @@ function UserLogin() {
             setUser(data);
             navigate('/');
         },
-        onError: (error) => {
-            console.log("Error creating user: ", error);
+        onError: (error: any) => {
+            toast.error(error.response.data.message);
         }
     });
 

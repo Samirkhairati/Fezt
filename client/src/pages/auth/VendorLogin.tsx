@@ -37,9 +37,8 @@ function VendorLogin() {
       setVendor(data);
       navigate('/');
     },
-    onError: (error) => {
-      console.log("Error creating vendor: ", error);
-      toast.error(error.message);
+    onError: (error: any) => {
+      toast.error(error.response.data.message);
     }
   });
 

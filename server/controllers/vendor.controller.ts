@@ -7,26 +7,27 @@ import bcrypt from 'bcryptjs';
 const loginVendor = handler(async (req: Request, res: Response) => {
 
     const vendor: IVendor | null = await Vendor.findOne({ email: req.body.email });
-    if (!vendor) throw new Error('Vendor not found');
+    if (!vendor) res.status(400).json({ message: 'Vendor does not exist' });
+    else {
+        const passwordMatch = await bcrypt.compare(req.body.password, vendor.password!);
+        if (!passwordMatch) res.status(400).json({ message: 'Password is incorrect' });
 
-    const passwordMatch = await bcrypt.compare(req.body.password, vendor.password!);
-    if (!passwordMatch) throw new Error('Invalid password');
-
-    generateToken(res, vendor._id)
-    res.json({
-        name: vendor.name,
-        email: vendor.email,
-        image: vendor.image,
-        phone: vendor.phone,
-        address: vendor.address,
-        _id: vendor._id,
-    })
+        generateToken(res, vendor._id)
+        res.json({
+            name: vendor.name,
+            email: vendor.email,
+            image: vendor.image,
+            phone: vendor.phone,
+            address: vendor.address,
+            _id: vendor._id,
+        })
+    }
 
 }, '@loginVendor ERROR: ');
 
 const createVendor = handler(async (req: Request, res: Response) => {
     const vendor: IVendor | null = await Vendor.findOne({ email: req.body.email });
-    if (vendor) throw new Error('Vendor already exists');
+    if (vendor) res.status(400).json({ message: 'Vendor already exists' });
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);

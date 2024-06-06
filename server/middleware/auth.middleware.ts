@@ -11,22 +11,12 @@ const userAuth = asyncHandler(async (req: any, res: any, next: any) => {
             req.user = await User.findById(decoded.userId).select('-password');
             next();
         } catch (error) {
-            res.status(401);
-            throw new Error('@userAuth ERROR: Not authorized, token failed');
+            res.status(400).json({ message: 'Not authorized as user' });
         }
     } else {
         throw new Error('@userAuth ERROR: No token, authorization denied');
     }
 }, '@userAuth ERROR: definition: ');
 
-const adminAuth = asyncHandler(async (req, res, next) => {
-    if (req.user && req.user.isAdmin) {
-        next();
-    } else {
-        res.status(401);
-        throw new Error('@adminAuth ERROR: Not authorized as an admin');
-    }
 
-}, '@adminAuth ERROR: definition: ')
-
-export { userAuth, adminAuth };
+export { userAuth };
