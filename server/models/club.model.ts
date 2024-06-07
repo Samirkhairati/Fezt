@@ -24,6 +24,6 @@ const clubSchema: Schema<IClub> = new Schema({
     },
 }, { timestamps: true });
 
-const User = model<IClub>('Club', clubSchema);
+const Club = model<IClub>('Club', clubSchema);
 
-export default User;
+export default Club;

@@ -60,10 +60,10 @@ function UserLogin() {
                     setGoogle(true);
                 }
             }).catch((error) => {
-                console.log("Could not create user: ", error);
+                toast.error(error.response.data.message);
             });
         } catch (error) {
-            console.log("Could not sign in with Google: ", error);
+            console.log(error);
         }
     }
 
@@ -76,7 +76,6 @@ function UserLogin() {
         mutationFn: createUser,
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['users'] });
-            console.log("User created: ", data);
             toast.success("User created successfully.");
             setUser(data);
             navigate('/');

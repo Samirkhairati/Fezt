@@ -1,4 +1,3 @@
-import jwt from 'jsonwebtoken';
 import { Request, Response } from "express";
 import handler from "../middleware/handler.middleware";
 import Club, { IClub } from "../models/club.model";
@@ -30,13 +29,10 @@ const createClub = handler(async (req: Request, res: Response) => {
 const readClubs = handler(async (req: Request, res: Response) => {
     const clubs: IClub[] = await Club.find({ user: req.query.userId });
     res.json(clubs);
-}, '@createClub ERROR: ');
+}, '@readClubs ERROR: ');
 
 const updateClub = handler(async (req: any, res: Response) => {
     const club: IClub | null = await Club.findOne({ _id: req.body._id });
-    console.log('1')
-    console.log(club, req.user._id.toString())
-    console.log('2')
     if (!club) res.status(400).json({ message: 'Club does not exist' });
     else {
         if (club.user.toString() !== req.user._id.toString()) res.status(400).json({ message: 'You are not authorized to edit this club' });
@@ -49,7 +45,7 @@ const updateClub = handler(async (req: any, res: Response) => {
             revenue: club.revenue,
         })
     }
-}, '@createClub ERROR: ');
+}, '@editClub ERROR: ');
 
 const deleteClub = handler(async (req: any, res: Response) => {
     const club: IClub | null = await Club.findOne({ _id: req.query._id });
@@ -59,7 +55,7 @@ const deleteClub = handler(async (req: any, res: Response) => {
         await Club.findByIdAndDelete(club._id);
         res.json({ message: 'Club deleted' });
     }
-}, '@createClub ERROR: ')
+}, '@deleteClub ERROR: ')
 
 
 export { createClub, readClubs, updateClub, deleteClub }

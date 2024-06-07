@@ -32,7 +32,6 @@ function VendorLogin() {
   const { mutate: loginVendorMutation, isPending } = useMutation({
     mutationFn: loginVendor,
     onSuccess: (data) => {
-      console.log("Vendor logged in successfully: ", data);
       toast.success("Vendor logged in successfully.");
       setVendor(data);
       navigate('/');

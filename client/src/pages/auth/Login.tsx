@@ -1,11 +1,8 @@
 import { Link } from 'react-router-dom'
-import useStore from '@/actions/store'
 import { Button } from '@/components/ui/button'
 
 function Start() {
 
-    const user = useStore(state => state)
-    console.log(JSON.stringify(user))
     // const handleGoogleLogout = async () => {
     //   const auth = getAuth(firebase)
     //   const result = await signOut(auth)

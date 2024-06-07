@@ -52,7 +52,6 @@ function ClubsDashboard() {
 
     const readClubs = async () => {
         const response = await axios.get('/api/clubs', { params: { userId } });
-        console.log(response.data);
         return response.data;
     }
 
@@ -118,7 +117,7 @@ function ClubsDashboard() {
 
     //TODO: custom props for images
     return (
-        <Wrapper redirect="/user/home/dashboard" title="CLUBS">
+        <Wrapper redirect="/user/dashboard" title="CLUBS">
             <Dialog>
                 <DialogTrigger>
                     <Button className="w-full bg-white text-black hover:bg-slate-200"><FaPlus className="mr-3" />New Club</Button>

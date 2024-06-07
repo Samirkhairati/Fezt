@@ -6,10 +6,11 @@ import cors from 'cors';
 import path from 'path';
 import mongo from './config/mongo.config';
 
-// UTILS ==========================================
+// HANDLERS ==========================================
 import userRoutes from './routes/user.routes';
 import vendorRoutes from './routes/vendor.routes';
 import clubRoutes from './routes/club.routes';
+import eventRoutes from './routes/events.routes';
 
 // SETUP ==========================================
 dotenv.config();
@@ -32,6 +33,7 @@ app.use(cors(
 app.use("/api/users", userRoutes);
 app.use("/api/vendors", vendorRoutes);
 app.use("/api/clubs", clubRoutes);
+app.use("/api/events", eventRoutes);
 
 // BUILD ==========================================
 app.use(express.static(path.join(location, '../client/dist')));
