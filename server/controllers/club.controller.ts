@@ -57,5 +57,11 @@ const deleteClub = handler(async (req: any, res: Response) => {
     }
 }, '@deleteClub ERROR: ')
 
+const readUserClubs = handler(async (req: any, res: Response) => {
+    if (req.query.userId.toString() !== req.user._id.toString()) res.status(400).json({ message: 'You are not authorized to view these clubs' })
+    const clubs: IClub[] = await Club.find({ user: req.user._id });
+    res.json(clubs);
+}, '@readUserClubs ERROR: ');
 
-export { createClub, readClubs, updateClub, deleteClub }
+
+export { createClub, readClubs, updateClub, deleteClub, readUserClubs}

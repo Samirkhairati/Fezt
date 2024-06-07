@@ -193,7 +193,7 @@ function ClubsDashboard() {
                                                     <DialogDescription>
                                                         <form onSubmit={handleSubmit(onSubmitDelete)} className="w-full flex flex-col gap-y-2 mt-2">
                                                             <input type="hidden" value={club._id} {...register('_id')} />
-                                                            <Button disabled={deleteIsPending} type="submit" className="w-full">
+                                                            <Button variant='destructive' disabled={deleteIsPending} type="submit" className="w-full">
                                                                 {deleteIsPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                                                                 Delete Club
                                                             </Button>

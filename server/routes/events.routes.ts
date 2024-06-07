@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import { createEvent, readEvents, updateEvent, deleteEvent, readEventsByClub, registerEvent } from '../controllers/event.controller';
+import { createEvent, readEvents, updateEvent, deleteEvent, readEventsByUser, registerEvent } from '../controllers/event.controller';
 import { userAuth } from '../middleware/auth.middleware';
 router.route('/')
     .post(userAuth, createEvent)
@@ -9,6 +9,6 @@ router.route('/')
     .delete(userAuth, deleteEvent)
 
 router.route('/register').put(userAuth, registerEvent)
-router.route('/club').get(userAuth, readEventsByClub)
+router.route('/club').get(userAuth, readEventsByUser)
 
 export default router;

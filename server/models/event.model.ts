@@ -34,7 +34,7 @@ const eventSchema: Schema<IEvent> = new Schema({
     },
     club: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Club',
         required: true,
     },
 }, { timestamps: true });
