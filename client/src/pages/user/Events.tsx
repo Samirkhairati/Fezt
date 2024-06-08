@@ -101,7 +101,6 @@ function EventsDashboard() {
                                     <p className="text-xs md:text-sm mt-1 font-bold text-black opacity-60 leading-tight">{event.club.name}</p>
                                     <p className="text-xs md:text-sm font-bold text-black opacity-60 leading-tight">{event.date}</p>
                                     <p className="text-xs md:text-base font-extrabold text-black opacity-80 leading-tight">₹ {event.price || 'FREE'}</p>
-                                    <p className="text-xs md:text-sm font-bold text-black opacity-60">Registrations: {event.registrations}</p>
                                     <div className="absolute right-2 bottom-2 flex-col flex gap-1">
                                         {event.registered?.includes(userId as string) ? <Button disabled={true} size='icon' className="bg-black text-white border-opacity-80 border-white text-xs border-2"><FaCheck /></Button>
                                             : <Dialog>

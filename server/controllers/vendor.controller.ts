@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import handler from "../middleware/handler.middleware";
 import Vendor, { IVendor } from "../models/vendor.model";
-import generateToken from "../utils/token.util";
+import {generateVendorToken} from "../utils/token.util";
 import bcrypt from 'bcryptjs';
 
 const loginVendor = handler(async (req: Request, res: Response) => {
@@ -12,7 +12,7 @@ const loginVendor = handler(async (req: Request, res: Response) => {
         const passwordMatch = await bcrypt.compare(req.body.password, vendor.password!);
         if (!passwordMatch) res.status(400).json({ message: 'Password is incorrect' });
         else {
-            generateToken(res, vendor._id)
+            generateVendorToken(res, vendor._id)
             res.json({
                 name: vendor.name,
                 email: vendor.email,
@@ -42,7 +42,7 @@ const createVendor = handler(async (req: Request, res: Response) => {
     });
 
     const createdVendor = await newVendor.save();
-    generateToken(res, createdVendor._id)
+    generateVendorToken(res, createdVendor._id)
     res.json({
         name: createdVendor.name,
         email: createdVendor.email,

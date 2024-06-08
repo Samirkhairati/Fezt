@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import handler from "../middleware/handler.middleware";
 import User, { IUser } from "../models/user.model";
-import generateToken from "../utils/token.util";
+import { generateUserToken } from "../utils/token.util";
 
 //TODO: google access token check
 
@@ -9,7 +9,7 @@ const loginUser = handler(async (req: Request, res: Response) => {
 
     const user: IUser | null = await User.findOne({ email: req.body.email });
     if (user) {
-        generateToken(res, user._id)
+        generateUserToken(res, user._id)
         res.json(user)
     } else res.json();
 
@@ -26,7 +26,7 @@ const createUser = handler(async (req: Request, res: Response) => {
         balance: 12000,
     });
     const createdUser = await newUser.save();
-    generateToken(res, createdUser._id)
+    generateUserToken(res, createdUser._id)
     res.json({
         name: createdUser.name,
         email: createdUser.email,

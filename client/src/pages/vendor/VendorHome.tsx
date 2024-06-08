@@ -20,7 +20,7 @@ function Home() {
                         <div className="text-5xl text-white opacity-80">ITEMS</div>
                         <div className="mt-1 text-md text-white opacity-80">MANAGE ITEMS</div>
                     </div>
-                    <img className='absolute bottom-0 right-0 transform h-full w-auto rotate-[20deg] scale-[1.6] translate-x-[5%] translate-y-[10%]' src='/prop8.png' />
+                    <img className='absolute bottom-0 right-0 transform h-full w-auto rotate-[20deg] scale-[1.5] translate-x-[5%] translate-y-[10%]' src='/prop8.png' />
                 </Link>
             </div>
         </Wrapper>

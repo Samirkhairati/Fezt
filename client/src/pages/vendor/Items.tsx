@@ -10,13 +10,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -27,90 +20,79 @@ import useStore from "@/actions/store";
 import { MdEdit } from "react-icons/md";
 import { useState } from "react";
 
-interface CreateEvent {
+//TODO: button colors
+
+interface CreateItem {
     name: string,
     image: string,
     price: number,
-    date: string,
-    club: string,
+    vendor: string,
     _id: string,
 }
-interface EditEvent {
+interface EditItem {
     name: string,
     image: string,
     price: number,
-    date: string,
     _id: string,
-    club: string,
+    vendor: string,
 }
-interface DeleteEvent {
+interface DeleteItem {
     _id: string,
-    club: string,
+    vendor: string,
 }
-interface EventSchema {
-    _id: string;
-    name: string;
-    image?: string;
-    price?: number;
-    date?: string;
-    registrations?: number;
-    club: {
-        _id: string;
-        name: string;
-    }
+interface ItemSchema {
+    _id: string,
+    name: string,
+    image?: string,
+    price?: number
+    vendor: {
+        _id: string,
+        name: string,
+    },
 }
 
 function Items() {
 
-    const { register: registerCreate, handleSubmit: handleSubmitCreate, reset: resetCreate, setValue: setValueCreate, formState: { errors: errorsCreate } } = useForm<CreateEvent>();
-    const { register: registerEdit, handleSubmit: handleSubmitEdit, reset: resetEdit, formState: { errors: errorsEdit } } = useForm<EditEvent>();
-    const { register: registerDelete, handleSubmit: handleSubmitDelete, reset: resetDelete } = useForm<DeleteEvent>();
+    const { register: registerCreate, handleSubmit: handleSubmitCreate, reset: resetCreate, formState: { errors: errorsCreate } } = useForm<CreateItem>();
+    const { register: registerEdit, handleSubmit: handleSubmitEdit, reset: resetEdit, formState: { errors: errorsEdit } } = useForm<EditItem>();
+    const { register: registerDelete, handleSubmit: handleSubmitDelete, reset: resetDelete } = useForm<DeleteItem>();
     const queryClient = useQueryClient();
-    const userId = useStore(state => state.user?._id);
+    const vendorId = useStore(state => state.vendor?._id);
     const [fileLoading, setFileLoading] = useState(false);
     const [image, setImage] = useState<string | undefined>(undefined);
 
-    const readEventsByUser = async () => {
-        const response = await axios.get('/api/events/club', { params: { userId } });
+    const readItemsByVendor = async () => {
+        const response = await axios.get('/api/items/vendor', { params: { vendorId } });
+        console.log(response.data)
         return response.data;
     }
 
-    const readUserClubs = async () => {
-        const response = await axios.get('/api/clubs/user', { params: { userId } });
-        return response.data;
-    }
-
-    const createEvent = async (data: CreateEvent) => {
-        const response = await axios.post('/api/events', { ...data, image });
+    const createItem = async (data: CreateItem) => {
+        const response = await axios.post('/api/items', { ...data, image });
         return response.data;
     };
 
-    const editEvent = async (data: EditEvent) => {
-        const response = await axios.put('/api/events', { ...data, image });
+    const editItem = async (data: EditItem) => {
+        const response = await axios.put('/api/items', { ...data, image });
         return response.data;
     };
 
-    const deleteEvent = async (data: DeleteEvent) => {
-        const response = await axios.delete('/api/events', { params: { ...data } });
+    const deleteItem = async (data: DeleteItem) => {
+        const response = await axios.delete('/api/items', { params: { ...data } });
         return response.data;
     };
 
-    const { data: events, isLoading: readIsLoading } = useQuery({
-        queryKey: ['events', userId],
-        queryFn: readEventsByUser,
-        enabled: !!userId
-    });
-    const { data: clubs } = useQuery({
-        queryKey: ['clubs', userId],
-        queryFn: readUserClubs,
-        enabled: !!userId
+    const { data: items, isLoading: readIsLoading } = useQuery({
+        queryKey: ['items', vendorId],
+        queryFn: readItemsByVendor,
+        enabled: !!vendorId
     });
 
-    const { mutate: createEventMutation, isPending: createIsPending } = useMutation({
-        mutationFn: createEvent,
+    const { mutate: createItemMutation, isPending: createIsPending } = useMutation({
+        mutationFn: createItem,
         onSuccess: () => {
-            toast.success("Event created successfully.");
-            queryClient.invalidateQueries({ queryKey: ['events', userId] });
+            toast.success("Item created successfully.");
+            queryClient.invalidateQueries({ queryKey: ['items', vendorId] });
             setImage(undefined);
             resetCreate();
         },
@@ -119,11 +101,11 @@ function Items() {
             resetCreate();
         }
     });
-    const { mutate: editEventMutation, isPending: editIsPending } = useMutation({
-        mutationFn: editEvent,
+    const { mutate: editItemMutation, isPending: editIsPending } = useMutation({
+        mutationFn: editItem,
         onSuccess: () => {
-            toast.success("Event edited successfully.");
-            queryClient.invalidateQueries({ queryKey: ['events', userId] });
+            toast.success("Item edited successfully.");
+            queryClient.invalidateQueries({ queryKey: ['items', vendorId] });
             setImage(undefined);
             resetEdit();
         },
@@ -132,11 +114,11 @@ function Items() {
             resetEdit();
         }
     });
-    const { mutate: deleteEventMutation, isPending: deleteIsPending } = useMutation({
-        mutationFn: deleteEvent,
+    const { mutate: deleteItemMutation, isPending: deleteIsPending } = useMutation({
+        mutationFn: deleteItem,
         onSuccess: () => {
-            toast.success("Event deleted successfully.");
-            queryClient.invalidateQueries({ queryKey: ['events', userId] });
+            toast.success("Item deleted successfully.");
+            queryClient.invalidateQueries({ queryKey: ['items', vendorId] });
             resetDelete();
         },
         onError: (error: any) => {
@@ -145,14 +127,14 @@ function Items() {
         }
     });
 
-    const onSubmitCreate = (data: CreateEvent) => {
-        createEventMutation(data);
+    const onSubmitCreate = (data: CreateItem) => {
+        createItemMutation(data);
     };
-    const onSubmitEdit = (data: EditEvent) => {
-        editEventMutation(data);
+    const onSubmitEdit = (data: EditItem) => {
+        editItemMutation(data);
     };
-    const onSubmitDelete = (data: DeleteEvent) => {
-        deleteEventMutation(data);
+    const onSubmitDelete = (data: DeleteItem) => {
+        deleteItemMutation(data);
     };
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -185,36 +167,18 @@ function Items() {
                         <DialogDescription>
                             <form onSubmit={handleSubmitCreate(onSubmitCreate)} className="w-full flex flex-col gap-y-2 mt-2">
                                 <Input
-                                    placeholder="Event Name"
+                                    placeholder="Item Name"
                                     className="w-full"
                                     {...registerCreate("name", { required: true })}
                                 />
-                                {errorsCreate.name && <p className="text-red-500">Event Name is required</p>}
+                                {errorsCreate.name && <p className="text-red-500">Item Name is required</p>}
                                 <Input
-                                    placeholder="Date: 7 June 8:00 PM"
-                                    className="w-full"
-                                    {...registerCreate("date", { required: true })}
-                                />
-                                {errorsCreate.date && <p className="text-red-500">Date is required</p>}
-                                <Input
-                                    placeholder="Price: Type 0 for free events."
+                                    placeholder="Price in Rs."
                                     className="w-full"
                                     type="number"
                                     {...registerCreate("price", { required: true, valueAsNumber: true, min: 0 })}
                                 />
                                 {errorsCreate.price && <p className="text-red-500">Price is required</p>}
-                                {!clubs?.length ? <p className="text-red-500">Create a club first</p> :
-                                    <Select onValueChange={(value: string) => setValueCreate('club', value, { shouldValidate: true })} {...registerCreate("club", { required: true })}>
-                                        <SelectTrigger className="w-full">
-                                            <SelectValue placeholder="Select Club" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {clubs?.map((club: any, index: number) => (
-                                                <SelectItem key={index} value={club._id}>{club.name}</SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>}
-                                {errorsCreate.club && <p className="text-red-500">Club is required</p>}
                                 <div className="flex gap-4 items-center my-2">
                                     <img className="h-20 w-20 object-cover rounded-lg" src={image || 'https://semantic-ui.com/images/wireframe/image.png'} />
                                     <div className="flex flex-col gap-1 justify-center">
@@ -223,17 +187,17 @@ function Items() {
                                                 className="cursor-pointer"
                                                 htmlFor="media"
                                             >
-                                                Upload Event Image
+                                                Upload Item Image
                                                 <input onChange={handleFileChange} accept="image/*" className="sr-only" id="media" name="media" type="file" />
                                             </label>
                                         </Button>
                                         <Button disabled={!image} onClick={() => setImage(undefined)} variant='outline' >Remove Upload</Button>
                                     </div>
                                 </div>
-
+                                <input type="hidden" value={vendorId} {...registerCreate('vendor')} />
                                 <Button disabled={createIsPending || fileLoading} type="submit" className="w-full">
                                     {(createIsPending || fileLoading) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                                    Create new Event
+                                    Create new Item
                                 </Button>
                             </form>
                         </DialogDescription>
@@ -241,17 +205,15 @@ function Items() {
                 </DialogContent>
             </Dialog>
             {readIsLoading ? <Loader2 className="w-full text-white text-center" /> :
-                events?.length === 0 ? <p className="text-white text-center">No events created yet</p> :
-                    events?.map((event: EventSchema, index: number) => (
+                items?.length === 0 ? <p className="text-white text-center">No items created yet</p> :
+                    items?.map((item: ItemSchema, index: number) => (
                         <div key={index} className="w-full h-[170px] md:h-[25%] flex flex-row gap-4">
-                            <div className={`relative flex items-center justify-start w-[100%] md:hover:scale-105 transition-transform ease-in-out duration-300 h-full border-white border-4 bg-[url('/pattern2.png')] bg-cover bg-center`}>
-                                <img className='grayscale opacity-80 contrast-150 object-cover h-full aspect-square border-white' src={event.image} />
+                            <div className={`relative flex items-center justify-start w-[100%] md:hover:scale-105 transition-transform ease-in-out duration-300 h-full border-white border-4 bg-[url('/pattern4.png')] bg-cover bg-center`}>
+                                <img className='contrast-150 object-cover h-full aspect-square border-white' src={item.image} />
                                 <div className="py-3 px-7 flex flex-col justify-center h-full">
-                                    <h2 className="text-xs md:text-lg font-extrabold uppercase leading-tight text-wrap text-black opacity-90">{event.name}</h2>
-                                    <p className="text-xs md:text-sm mt-1 font-bold text-black opacity-60 leading-tight">{event.club.name}</p>
-                                    <p className="text-xs md:text-sm font-bold text-black opacity-60 leading-tight">{event.date}</p>
-                                    <p className="text-xs md:text-base font-extrabold text-black opacity-80 leading-tight">₹ {event.price || 'FREE'}</p>
-                                    <p className="text-xs md:text-sm font-bold text-black opacity-60">Registrations: {event.registrations}</p>
+                                    <h2 className="text-xs md:text-xl font-extrabold uppercase leading-tight text-wrap text-black opacity-90">{item.name}</h2>
+                                    <p className="text-xs md:text-base mt-1 font-bold text-black opacity-60 leading-tight">{item.vendor.name}</p>
+                                    <p className="text-xs md:text-lg font-extrabold text-black opacity-80 leading-tight">₹ {item.price || 'FREE'}</p>
                                     <div className="absolute right-2 bottom-2 flex-col flex gap-1">
                                         <Dialog>
                                             <DialogTrigger>
@@ -259,23 +221,16 @@ function Items() {
                                             </DialogTrigger>
                                             <DialogContent className="">
                                                 <DialogHeader>
-                                                    <DialogTitle>Edit Event</DialogTitle>
+                                                    <DialogTitle>Edit Item</DialogTitle>
                                                     <DialogDescription>
                                                         <form onSubmit={handleSubmitEdit(onSubmitEdit)} className="w-full flex flex-col gap-y-2 mt-2">
                                                             <Input
-                                                                placeholder="Event Name"
+                                                                placeholder="Item Name"
                                                                 className="w-full"
                                                                 {...registerEdit("name")}
                                                             />
-                                                            {errorsEdit.name && <p className="text-red-500">Event Name is required</p>}
                                                             <Input
-                                                                placeholder="Date: 7 June 8:00 PM"
-                                                                className="w-full"
-                                                                {...registerEdit("date")}
-                                                            />
-                                                            {errorsEdit.date && <p className="text-red-500">Date is required</p>}
-                                                            <Input
-                                                                placeholder="Price: Type 0 for free events."
+                                                                placeholder="Price in Rs."
                                                                 className="w-full"
                                                                 type="number"
                                                                 {...registerEdit("price", { valueAsNumber: true, min: 0 })}
@@ -289,18 +244,18 @@ function Items() {
                                                                             className="cursor-pointer"
                                                                             htmlFor="media"
                                                                         >
-                                                                            Upload Event Image
+                                                                            Upload Item Image
                                                                             <input onChange={handleFileChange} accept="image/*" className="sr-only" id="media" name="media" type="file" />
                                                                         </label>
                                                                     </Button>
                                                                     <Button disabled={!image} onClick={() => setImage(undefined)} variant='outline' >Remove Upload</Button>
                                                                 </div>
                                                             </div>
-                                                            <input type="hidden" value={event.club._id} {...registerEdit('club')} />
-                                                            <input type="hidden" value={event._id} {...registerEdit('_id')} />
+                                                            <input type="hidden" value={item._id} {...registerEdit('_id')} />
+                                                            <input type="hidden" value={vendorId} {...registerEdit('vendor')} />
                                                             <Button disabled={editIsPending} type="submit" className="w-full">
                                                                 {editIsPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                                                                Edit Event
+                                                                Edit Item
                                                             </Button>
                                                         </form>
                                                     </DialogDescription>
@@ -313,14 +268,14 @@ function Items() {
                                             </DialogTrigger>
                                             <DialogContent className="">
                                                 <DialogHeader>
-                                                    <DialogTitle>Are you sure you want to delete this event?</DialogTitle>
+                                                    <DialogTitle>Are you sure you want to delete this item?</DialogTitle>
                                                     <DialogDescription>
                                                         <form onSubmit={handleSubmitDelete(onSubmitDelete)} className="w-full flex flex-col gap-y-2 mt-2">
-                                                            <input type="hidden" value={event.club._id} {...registerDelete('club')} />
-                                                            <input type="hidden" value={event._id} {...registerDelete('_id')} />
+                                                            <input type="hidden" value={vendorId} {...registerDelete('vendor')} />
+                                                            <input type="hidden" value={item._id} {...registerDelete('_id')} />
                                                             <Button variant='destructive' disabled={deleteIsPending} type="submit" className="w-full mt-5">
                                                                 {deleteIsPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                                                                Delete Event: {event.name}
+                                                                Delete Item: {item.name}
                                                             </Button>
                                                         </form>
                                                     </DialogDescription>

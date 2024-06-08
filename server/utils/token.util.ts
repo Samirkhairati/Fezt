@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 
-const generateToken = (res: Response, userId: string) => {
+const generateUserToken = (res: Response, userId: string) => {
     const secretKey = process.env.JWT!;
     const payload = { userId };
     const options = { expiresIn: '30d' };
@@ -16,6 +16,20 @@ const generateToken = (res: Response, userId: string) => {
 
     return token;
 };
+const generateVendorToken = (res: Response, vendorId: string) => {
+    const secretKey = process.env.JWT!;
+    const payload = { vendorId };
+    const options = { expiresIn: '30d' };
+    const token = jwt.sign(payload, secretKey, options);
 
-export default generateToken;
+    res.cookie('jwt', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: "strict",
+        maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+    });
 
+    return token;
+};
+
+export { generateUserToken, generateVendorToken };

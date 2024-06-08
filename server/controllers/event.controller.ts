@@ -8,7 +8,8 @@ import User, { IUser } from "../models/user.model";
 const createEvent = handler(async (req: any, res: Response) => {
     const club: IClub | null = await Club.findOne({ _id: req.body.club });
     const popuplatedClub = await club?.populate('user')
-    if (popuplatedClub?.user.toString() !== req.user.toString()) res.status(400).json({ message: 'You are not authorized to create an event for this club' })
+    //@ts-ignore
+    if (popuplatedClub?.user._id.toString() !== req.user._id.toString()) res.status(400).json({ message: 'You are not authorized to create an event for this club' })
     else {
         const newEvent: IEvent = new Event({
             name: req.body.name,
