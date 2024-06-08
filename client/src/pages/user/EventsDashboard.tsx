@@ -72,7 +72,6 @@ function EventsDashboard() {
 
     const readEventsByUser = async () => {
         const response = await axios.get('/api/events/club', { params: { userId } });
-        console.log(response.data)
         return response.data;
     }
 
@@ -111,7 +110,8 @@ function EventsDashboard() {
         mutationFn: createEvent,
         onSuccess: () => {
             toast.success("Event created successfully.");
-            queryClient.invalidateQueries({ queryKey: ['events'] });
+            queryClient.invalidateQueries({ queryKey: ['events', userId] });
+            setImage(undefined);
             resetCreate();
         },
         onError: (error: any) => {
@@ -123,7 +123,8 @@ function EventsDashboard() {
         mutationFn: editEvent,
         onSuccess: () => {
             toast.success("Event edited successfully.");
-            queryClient.invalidateQueries({ queryKey: ['events'] });
+            queryClient.invalidateQueries({ queryKey: ['events', userId] });
+            setImage(undefined);
             resetEdit();
         },
         onError: (error: any) => {
@@ -135,7 +136,7 @@ function EventsDashboard() {
         mutationFn: deleteEvent,
         onSuccess: () => {
             toast.success("Event deleted successfully.");
-            queryClient.invalidateQueries({ queryKey: ['events'] });
+            queryClient.invalidateQueries({ queryKey: ['events', userId] });
             resetDelete();
         },
         onError: (error: any) => {
@@ -171,7 +172,7 @@ function EventsDashboard() {
         }
     }
 
-    //TODO: custom props for images
+    //TODO: convert patterns to css
     return (
         <Wrapper redirect="/user/dashboard" title="EVENTS">
             <Dialog>
@@ -243,14 +244,14 @@ function EventsDashboard() {
                 events?.length === 0 ? <p className="text-white text-center">No events created yet</p> :
                     events?.map((event: EventSchema, index: number) => (
                         <div key={index} className="w-full h-[170px] md:h-[25%] flex flex-row gap-4">
-                            <div className={`relative flex items-center justify-start w-[100%] md:hover:scale-105 transition-transform ease-in-out duration-300 h-full border-white border-opacity-50 border-4 bg-[url('/pattern7.png')] bg-cover bg-center`}>
-                                <img className='object-cover h-full aspect-square border-white' src={event.image} />
+                            <div className={`relative flex items-center justify-start w-[100%] md:hover:scale-105 transition-transform ease-in-out duration-300 h-full border-white border-4 bg-[url('/pattern2.png')] bg-cover bg-center`}>
+                                <img className='grayscale opacity-80 contrast-150 object-cover h-full aspect-square border-white' src={event.image} />
                                 <div className="py-3 px-7 flex flex-col justify-center h-full">
-                                    <h2 className="text-xs md:text-lg font-extrabold uppercase leading-tight text-wrap text-white opacity-90">{event.name}</h2>
-                                    <p className="text-xs md:text-sm mt-1 font-bold text-white opacity-60 leading-tight">{event.club.name}</p>
-                                    <p className="text-xs md:text-sm font-bold text-white opacity-60 leading-tight">{event.date}</p>
-                                    <p className="text-xs md:text-base font-extrabold text-white opacity-80 leading-tight">₹ {event.price}</p>
-                                    <p className="text-xs md:text-sm font-bold text-white opacity-60">Registrations: {event.registrations}</p>
+                                    <h2 className="text-xs md:text-lg font-extrabold uppercase leading-tight text-wrap text-black opacity-90">{event.name}</h2>
+                                    <p className="text-xs md:text-sm mt-1 font-bold text-black opacity-60 leading-tight">{event.club.name}</p>
+                                    <p className="text-xs md:text-sm font-bold text-black opacity-60 leading-tight">{event.date}</p>
+                                    <p className="text-xs md:text-base font-extrabold text-black opacity-80 leading-tight">₹ {event.price || 'FREE'}</p>
+                                    <p className="text-xs md:text-sm font-bold text-black opacity-60">Registrations: {event.registrations}</p>
                                     <div className="absolute right-2 bottom-2 flex-col flex gap-1">
                                         <Dialog>
                                             <DialogTrigger>

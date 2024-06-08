@@ -8,7 +8,8 @@ export interface IEvent extends Document {
     price?: number;
     date?: string;
     registrations?: number;
-    club: string | Schema.Types.ObjectId | IClub
+    club: string | Schema.Types.ObjectId | IClub,
+    registered? : string[]
 }
 
 const eventSchema: Schema<IEvent> = new Schema({
@@ -37,6 +38,11 @@ const eventSchema: Schema<IEvent> = new Schema({
         ref: 'Club',
         required: true,
     },
+    registered: {
+        type: [Schema.Types.ObjectId],
+        ref: 'User',
+        required: false,
+    }
 }, { timestamps: true });
 
 const Event = model<IEvent>('Event', eventSchema);

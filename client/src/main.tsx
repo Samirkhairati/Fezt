@@ -7,7 +7,7 @@ import Login from './pages/auth/Login'
 import VendorRegister from './pages/auth/VendorRegister'
 // USER ========================================================
 import User from './pages/user/User'
-// import Events from './pages/user/Events'
+import Events from './pages/user/Events'
 import Home from './pages/user/Home'
 import Dashboard from './pages/user/Dashboard'
 import ClubsDashboard from './pages/user/ClubsDashboard'
@@ -39,7 +39,7 @@ const router = createBrowserRouter(
 
       <Route path="user" element={<User />} >
         <Route path="home" element={<Home />} />
-        {/* <Route path="events" element={<Events />} /> */}
+        <Route path="events" element={<Events />} />
         {/* <Route path="wallet" element={<Wallet />} />
         <Route path="orders" element={<Orders />} />
         <Route path="shop" element={<Shop />} /> */}

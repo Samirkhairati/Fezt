@@ -143,79 +143,80 @@ function ClubsDashboard() {
                 </DialogContent>
             </Dialog>
             {readIsLoading ? <Loader2 className="w-full text-white text-center" /> :
-                <div className="bg-white w-full py-4 rounded-xl">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="text-center">Club</TableHead>
-                                <TableHead className="text-center">Revenue</TableHead>
-                                <TableHead className="text-center">Actions</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {clubs?.map((club: any, index: number) => (
-                                <TableRow key={index}>
-                                    <TableCell className="font-medium text-center">{club.name}</TableCell>
-                                    <TableCell className="text-center">₹{club.revenue}</TableCell>
-                                    <TableCell className="text-center">
-                                        <Dialog>
-                                            <DialogTrigger>
-                                                <Button size='icon' className="bg-blue-500 text-white mr-2"><MdEdit /></Button>
-                                            </DialogTrigger>
-                                            <DialogContent className="">
-                                                <DialogHeader>
-                                                    <DialogTitle>Edit Club</DialogTitle>
-                                                    <DialogDescription>
-                                                        <form onSubmit={handleSubmit(onSubmitEdit)} className="w-full flex flex-col gap-y-2 mt-2">
-                                                            <input type="hidden" value={club._id} {...register('_id')} />
-                                                            <Input
-                                                                placeholder="Club Name"
-                                                                className="w-full"
-                                                                {...register("name", { required: true })}
-                                                            />
-                                                            {errors.name && <p className="text-red-500">Club Name is required</p>}
-                                                            <Button disabled={editIsPending} type="submit" className="w-full">
-                                                                {editIsPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                                                                Edit Club
-                                                            </Button>
-                                                        </form>
-                                                    </DialogDescription>
-                                                </DialogHeader>
-                                            </DialogContent>
-                                        </Dialog>
-                                        <Dialog>
-                                            <DialogTrigger>
-                                                <Button size='icon' className="bg-red-500 text-white"><FaTrash /></Button>
-                                            </DialogTrigger>
-                                            <DialogContent className="">
-                                                <DialogHeader>
-                                                    <DialogTitle>Are you sure you want to delete this club?</DialogTitle>
-                                                    <DialogDescription>
-                                                        <form onSubmit={handleSubmit(onSubmitDelete)} className="w-full flex flex-col gap-y-2 mt-2">
-                                                            <input type="hidden" value={club._id} {...register('_id')} />
-                                                            <Button variant='destructive' disabled={deleteIsPending} type="submit" className="w-full">
-                                                                {deleteIsPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                                                                Delete Club
-                                                            </Button>
-                                                        </form>
-                                                    </DialogDescription>
-                                                </DialogHeader>
-                                            </DialogContent>
-                                        </Dialog>
-                                    </TableCell>
+                clubs?.length === 0 ? <p className="text-white text-center">No clubs created yet</p> :
+                    <div className="bg-white w-full pt-4 pb-2 rounded-xl">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead className="text-center">Club</TableHead>
+                                    <TableHead className="text-center">Revenue</TableHead>
+                                    <TableHead className="text-center">Actions</TableHead>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                        <TableFooter>
-                            <TableRow>
-                                <TableCell className="text-center">Total</TableCell>
-                                <TableCell className="text-center">₹{clubs?.reduce((total: number, club: any) => total + club.revenue, 0)}</TableCell>
-                                <TableCell></TableCell>
-                                <TableCell></TableCell>
-                            </TableRow>
-                        </TableFooter>
-                    </Table>
-                </div>
+                            </TableHeader>
+                            <TableBody>
+                                {clubs?.map((club: any, index: number) => (
+                                    <TableRow key={index}>
+                                        <TableCell className="font-medium text-center">{club.name}</TableCell>
+                                        <TableCell className="text-center">₹{club.revenue}</TableCell>
+                                        <TableCell className="text-center">
+                                            <Dialog>
+                                                <DialogTrigger>
+                                                    <Button size='icon' className="bg-blue-500 text-white mr-2"><MdEdit /></Button>
+                                                </DialogTrigger>
+                                                <DialogContent className="">
+                                                    <DialogHeader>
+                                                        <DialogTitle>Edit Club</DialogTitle>
+                                                        <DialogDescription>
+                                                            <form onSubmit={handleSubmit(onSubmitEdit)} className="w-full flex flex-col gap-y-2 mt-2">
+                                                                <input type="hidden" value={club._id} {...register('_id')} />
+                                                                <Input
+                                                                    placeholder="Club Name"
+                                                                    className="w-full"
+                                                                    {...register("name", { required: true })}
+                                                                />
+                                                                {errors.name && <p className="text-red-500">Club Name is required</p>}
+                                                                <Button disabled={editIsPending} type="submit" className="w-full">
+                                                                    {editIsPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                                                    Edit Club
+                                                                </Button>
+                                                            </form>
+                                                        </DialogDescription>
+                                                    </DialogHeader>
+                                                </DialogContent>
+                                            </Dialog>
+                                            <Dialog>
+                                                <DialogTrigger>
+                                                    <Button size='icon' className="bg-red-500 text-white"><FaTrash /></Button>
+                                                </DialogTrigger>
+                                                <DialogContent className="">
+                                                    <DialogHeader>
+                                                        <DialogTitle>Are you sure you want to delete this club?</DialogTitle>
+                                                        <DialogDescription>
+                                                            <form onSubmit={handleSubmit(onSubmitDelete)} className="w-full flex flex-col gap-y-2 mt-2">
+                                                                <input type="hidden" value={club._id} {...register('_id')} />
+                                                                <Button variant='destructive' disabled={deleteIsPending} type="submit" className="w-full">
+                                                                    {deleteIsPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                                                    Delete Club
+                                                                </Button>
+                                                            </form>
+                                                        </DialogDescription>
+                                                    </DialogHeader>
+                                                </DialogContent>
+                                            </Dialog>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                            <TableFooter>
+                                <TableRow>
+                                    <TableCell className="text-center">Total</TableCell>
+                                    <TableCell className="text-center">₹{clubs?.reduce((total: number, club: any) => total + club.revenue, 0)}</TableCell>
+                                    <TableCell></TableCell>
+                                    <TableCell></TableCell>
+                                </TableRow>
+                            </TableFooter>
+                        </Table>
+                    </div>
             }
 
         </Wrapper>

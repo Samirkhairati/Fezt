@@ -9,30 +9,31 @@ const createEvent = handler(async (req: any, res: Response) => {
     const club: IClub | null = await Club.findOne({ _id: req.body.club });
     const popuplatedClub = await club?.populate('user')
     if (popuplatedClub?.user.toString() !== req.user.toString()) res.status(400).json({ message: 'You are not authorized to create an event for this club' })
-    const newEvent: IEvent = new Event({
-        name: req.body.name,
-        image: req.body.image || 'https://semantic-ui.com/images/wireframe/image.png',
-        price: req.body.price,
-        date: req.body.date,
-        registrations: 0,
-        club: req.body.club,
-    });
-    const createdEvent = await newEvent.save();
-    res.json({
-        name: createdEvent.name,
-        image: createdEvent.image,
-        price: createdEvent.price,
-        date: createdEvent.date,
-        registrations: createdEvent.registrations,
-        club: createdEvent.club,
-        _id: createdEvent._id,
-    })
+    else {
+        const newEvent: IEvent = new Event({
+            name: req.body.name,
+            image: req.body.image || 'https://semantic-ui.com/images/wireframe/image.png',
+            price: req.body.price,
+            date: req.body.date,
+            registrations: 0,
+            club: req.body.club,
+        });
+        const createdEvent = await newEvent.save();
+        res.json({
+            name: createdEvent.name,
+            image: createdEvent.image,
+            price: createdEvent.price,
+            date: createdEvent.date,
+            registrations: createdEvent.registrations,
+            club: createdEvent.club,
+            _id: createdEvent._id,
+        })
+    }
 
 }, '@createEvent ERROR: ');
 
 const updateEvent = handler(async (req: any, res: Response) => {
     const event: IEvent | null = await Event.findOne({ _id: req.body._id });
-    console.log(req.body, event)
     if (!event) res.status(400).json({ message: 'Event does not exist' });
     else {
         const club: IClub | null = await Club.findOne({ _id: req.body.club });
@@ -59,7 +60,6 @@ const updateEvent = handler(async (req: any, res: Response) => {
 
 const deleteEvent = handler(async (req: any, res: Response) => {
     const event: IEvent | null = await Event.findOne({ _id: req.query._id });
-    console.log(req.query, event)
     if (!event) res.status(400).json({ message: 'Event does not exist' });
     else {
         const club: IClub | null = await Club.findOne({ _id: req.query.club });
@@ -72,18 +72,23 @@ const deleteEvent = handler(async (req: any, res: Response) => {
 }, '@deleteEvent ERROR: ')
 
 const readEvents = handler(async (req: Request, res: Response) => {
-    const { page = 1, searchTerm = '' } = req.query;
+    const { page = 1 } = req.query;
     const pageNumber = parseInt(page as string, 10);
-    const limitNumber = 10
-    const searchStr = Array.isArray(searchTerm) ? searchTerm.join(' ') : searchTerm.toString();
-    const searchCriteria = searchStr
-        ? { $text: { $search: searchStr } }
-        : {};
-    const events: IEvent[] = await Event.find(searchCriteria)
+    const limitNumber = 3;
+    const events: IEvent[] = await Event.find({})
         .skip((pageNumber - 1) * limitNumber)
-        .limit(limitNumber);
-    res.status(200).json(events);
+        .limit(limitNumber)
+        .populate('club');
+    const totalCount = await Event.countDocuments({});
+    const hasNextPage = pageNumber * limitNumber < totalCount;
+
+    res.status(200).json({
+        data: events,
+        currentPage: pageNumber,
+        nextPage: hasNextPage ? pageNumber + 1 : null,
+    });
 }, '@readEvents ERROR: ');
+
 
 const readEventsByUser = handler(async (req: Request, res: Response) => {
     const clubs: IClub[] = await Club.find({ user: req.query.userId });
@@ -93,20 +98,25 @@ const readEventsByUser = handler(async (req: Request, res: Response) => {
 }, '@readEventsByClub ERROR: ');
 
 const registerEvent = handler(async (req: any, res: Response) => {
+    console.log('hi')
     const event: IEvent | null = await Event.findById(req.body.eventId);
     const user: IUser | null = await User.findById(req.body.userId);
     const club: IClub | null = await Club.findById(req.body.clubId);
+    console.log('hi')
     if (!event) res.status(400).json({ message: 'Event does not exist' });
     else if (!user) res.status(400).json({ message: 'User does not exist' });
     else if (!club) res.status(400).json({ message: 'Club does not exist' });
     else if (req.user._id.toString() !== user._id.toString()) res.status(400).json({ message: 'You are not authorized to register this user' })
     else {
+        console.log('hi')
         event.registrations = event.registrations! + 1;
         user.balance = user.balance! - event.price!;
         club.revenue = club.revenue! + event.price!;
+        event.registered?.push(user._id);
         const message = `₹${event.price} has been deducted from your account. Current balance: ₹${user.balance}`
         await event.save();
         await user.save();
+        await club.save();
         res.json({ message });
     }
 }, '@registerEvent ERROR: ');
