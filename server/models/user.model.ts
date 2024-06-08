@@ -9,6 +9,7 @@ export interface IUser extends Document {
     address?: string;
     bits?: string;
     balance?: number;
+    events?: string[];
 }
 
 const userSchema: Schema<IUser> = new Schema({
@@ -40,6 +41,10 @@ const userSchema: Schema<IUser> = new Schema({
         type: Number,
         required: false,
     },
+    events: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Event',
+    }],
 }, { timestamps: true });
 
 const User = model<IUser>('User', userSchema);

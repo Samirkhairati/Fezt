@@ -26,7 +26,7 @@ import toast from "react-hot-toast";
 import useStore from "@/actions/store";
 import { MdEdit } from "react-icons/md";
 import { useState } from "react";
-//TODO: use lesser interfaces
+
 interface CreateEvent {
     name: string,
     image: string,
@@ -60,7 +60,7 @@ interface EventSchema {
     }
 }
 
-function EventsDashboard() {
+function Items() {
 
     const { register: registerCreate, handleSubmit: handleSubmitCreate, reset: resetCreate, setValue: setValueCreate, formState: { errors: errorsCreate } } = useForm<CreateEvent>();
     const { register: registerEdit, handleSubmit: handleSubmitEdit, reset: resetEdit, formState: { errors: errorsEdit } } = useForm<EditEvent>();
@@ -174,14 +174,14 @@ function EventsDashboard() {
 
     //TODO: convert patterns to css
     return (
-        <Wrapper redirect="/user/dashboard" title="EVENTS">
+        <Wrapper redirect="/vendor/home" title="ITEMS">
             <Dialog>
                 <DialogTrigger>
-                    <Button className="w-full bg-white text-black hover:bg-slate-200"><FaPlus className="mr-3" />New Event</Button>
+                    <Button className="w-full bg-white text-black hover:bg-slate-200"><FaPlus className="mr-3" />New Item</Button>
                 </DialogTrigger>
                 <DialogContent className="">
                     <DialogHeader>
-                        <DialogTitle>Create a New Event</DialogTitle>
+                        <DialogTitle>Create a New Item</DialogTitle>
                         <DialogDescription>
                             <form onSubmit={handleSubmitCreate(onSubmitCreate)} className="w-full flex flex-col gap-y-2 mt-2">
                                 <Input
@@ -338,5 +338,5 @@ function EventsDashboard() {
     )
 }
 
-export default EventsDashboard
+export default Items
 

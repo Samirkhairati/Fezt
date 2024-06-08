@@ -112,6 +112,7 @@ const registerEvent = handler(async (req: any, res: Response) => {
         event.registrations = event.registrations! + 1;
         user.balance = user.balance! - event.price!;
         club.revenue = club.revenue! + event.price!;
+        user.events?.push(event._id);
         event.registered?.push(user._id);
         const message = `₹${event.price} has been deducted from your account. Current balance: ₹${user.balance}`
         await event.save();

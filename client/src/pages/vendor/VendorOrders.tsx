@@ -26,7 +26,7 @@ import toast from "react-hot-toast";
 import useStore from "@/actions/store";
 import { MdEdit } from "react-icons/md";
 import { useState } from "react";
-//TODO: use lesser interfaces
+
 interface CreateEvent {
     name: string,
     image: string,

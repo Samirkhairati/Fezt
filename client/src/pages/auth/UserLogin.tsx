@@ -102,7 +102,7 @@ function UserLogin() {
                         <FaGoogle className="mr-2 h-4 w-4" />
                         Login with Google
                     </Button>
-                    <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
+                    {google && <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
                         <div className="space-y-2">
                             <Label htmlFor="name" className="text-gray-50">
                                 Name
@@ -159,7 +159,7 @@ function UserLogin() {
                             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                             Login as Student
                         </Button>
-                    </form>
+                    </form>}
                 </div>
             </div>
         </div>

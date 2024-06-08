@@ -13,7 +13,9 @@ import Dashboard from './pages/user/Dashboard'
 import ClubsDashboard from './pages/user/ClubsDashboard'
 import EventsDashboard from './pages/user/EventsDashboard'
 // VENDOR ========================================================
-
+import Vendor from './pages/vendor/Vendor'
+import VendorHome from './pages/vendor/VendorHome'
+import Items from './pages/vendor/Items'
 // PACKAGES ========================================================
 
 import {
@@ -47,6 +49,13 @@ const router = createBrowserRouter(
         <Route path="dashboard/clubs" element={<ClubsDashboard />} />
         <Route path="dashboard/events" element={<EventsDashboard />} />
       </Route>
+
+      <Route path="vendor" element={<Vendor />} >
+        <Route path="home" element={<VendorHome />} />
+        <Route path="items" element={<Items />} />
+        <Route path="orders" element={<Events />} />
+      </Route>
+
     </Route>
   )
 )

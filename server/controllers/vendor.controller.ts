@@ -11,16 +11,17 @@ const loginVendor = handler(async (req: Request, res: Response) => {
     else {
         const passwordMatch = await bcrypt.compare(req.body.password, vendor.password!);
         if (!passwordMatch) res.status(400).json({ message: 'Password is incorrect' });
-
-        generateToken(res, vendor._id)
-        res.json({
-            name: vendor.name,
-            email: vendor.email,
-            image: vendor.image,
-            phone: vendor.phone,
-            address: vendor.address,
-            _id: vendor._id,
-        })
+        else {
+            generateToken(res, vendor._id)
+            res.json({
+                name: vendor.name,
+                email: vendor.email,
+                image: vendor.image,
+                phone: vendor.phone,
+                address: vendor.address,
+                _id: vendor._id,
+            })
+        }
     }
 
 }, '@loginVendor ERROR: ');

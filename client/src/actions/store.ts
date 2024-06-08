@@ -39,4 +39,4 @@ const useStore = create<Store>((set) => ({
 
 export default useStore
 
-//TODO: get user from local storage
+//TODO: get user/vendor from local storage
