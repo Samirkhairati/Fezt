@@ -67,8 +67,6 @@ function Shop() {
     }, [fetchNextPage, inView]);
     const items = data?.pages.flatMap(page => page.data) || [];
 
-    useEffect(() => {console.table(cart)}, [cart])
-
     return (
         <Wrapper redirect="/user/shop" title="SHOP">
             {items.length === 0 && status === 'success' && <div className="text-center text-white">No items available</div>}

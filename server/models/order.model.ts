@@ -6,9 +6,9 @@ export interface IOrder extends Document {
     _id: string;
     user: string | Schema.Types.ObjectId | IUser,
     vendor: string | Schema.Types.ObjectId | IVendor,
-    items: Item[],
+    items: ItemData[],
 }
-export interface Item {
+export interface ItemData {
     _id: string,
     quantity: number,
 }
@@ -19,6 +19,6 @@ const orderSchema: Schema<IOrder> = new Schema({
     items: [{ _id: String, quantity: Number}],
 }, { timestamps: true });
 
-const Order = model<IOrder>('Item', orderSchema);
+const Order = model<IOrder>('Order', orderSchema);
 
 export default Order;

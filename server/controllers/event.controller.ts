@@ -99,17 +99,14 @@ const readEventsByUser = handler(async (req: Request, res: Response) => {
 }, '@readEventsByClub ERROR: ');
 
 const registerEvent = handler(async (req: any, res: Response) => {
-    console.log('hi')
     const event: IEvent | null = await Event.findById(req.body.eventId);
     const user: IUser | null = await User.findById(req.body.userId);
     const club: IClub | null = await Club.findById(req.body.clubId);
-    console.log('hi')
     if (!event) res.status(400).json({ message: 'Event does not exist' });
     else if (!user) res.status(400).json({ message: 'User does not exist' });
     else if (!club) res.status(400).json({ message: 'Club does not exist' });
     else if (req.user._id.toString() !== user._id.toString()) res.status(400).json({ message: 'You are not authorized to register this user' })
     else {
-        console.log('hi')
         event.registrations = event.registrations! + 1;
         user.balance = user.balance! - event.price!;
         club.revenue = club.revenue! + event.price!;

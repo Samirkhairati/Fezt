@@ -13,14 +13,23 @@ const createOrder = handler(async (req: any, res: Response) => {
         if (!user) res.status(400).json({ message: 'User does not exist' });
         else if (!vendor) res.status(400).json({ message: 'Vendor does not exist' });
         else {
-            console.log(req.body.items);
-            console.log(user)
-            console.log(vendor)
-            res.status(200).json({ message: 'Order placed successfully' });
+            let total = 0;
+            for (let item of req.body.items) {
+                const populatedItem = await Item.findById(item._id).select('price');
+                total += populatedItem?.price! * item.quantity;
+            }
+            user.balance! -= total;
+            vendor.balance! += total;
+            await user.save();
+            await vendor.save();
+            const order: IOrder = new Order({ vendor: req.body.vendor, user: req.body.user, items: req.body.items });
+            await order.save();
+            const message = `Order Placed. ₹${total} has been deducted from your account. Current balance: ₹${user.balance}`
+            res.status(200).json({ message });
         }
     }
 
-}, '@createItem ERROR: ');
+}, '@createOrder ERROR: ');
 
 const updateOrder = handler(async (req: Request, res: Response) => {
     const items: IItem[] = await Item.find({ vendor: req.query.vendorId }).populate('vendor');

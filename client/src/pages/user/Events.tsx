@@ -66,7 +66,6 @@ function EventsDashboard() {
             reset();
         },
         onError: (error: any) => {
-            console.log(error)
             toast.error(error.response.data.message);
             reset()
         }

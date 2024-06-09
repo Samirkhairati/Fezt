@@ -2,7 +2,7 @@
 import useStore from "@/actions/store";
 import Wrapper from "@/components/Wrapper"
 import { useEffect } from "react";
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 import {
     Table,
@@ -24,6 +24,7 @@ import { Loader2 } from "lucide-react";
 
 function Cart() {
 
+    const navigate = useNavigate();
     const { vendorId } = useParams();
     const cart = useStore(state => state.cart);
     const setCart = useStore(state => state.setCart);
@@ -39,7 +40,7 @@ function Cart() {
         onSuccess: () => {
             toast.success("Order placed successfully.");
             setCart([]);
-            // Navigate('/user/sh)
+            navigate('/user/home')
         },
         onError: (error: any) => {
             toast.error(error.response.data.message);
@@ -63,9 +64,9 @@ function Cart() {
                     <DialogHeader>
                         <DialogTitle>Are you sure you want to place this order? It will cost you ₹{cart?.reduce((total, item) => total + (item.itemPrice * item.quantity), 0)}</DialogTitle>
                         <DialogDescription>
-                            <Button disabled={isPending} onClick={() => placeOrderMutation()} className="w-full">
+                            <Button disabled={isPending} onClick={() => placeOrderMutation()} className="mt-5 w-full">
                                 {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                                Edit Club
+                                Place Order
                             </Button>
                         </DialogDescription>
                     </DialogHeader>
@@ -101,8 +102,8 @@ function Cart() {
                     </TableBody>
                     <TableFooter className="bg-gray-200 py-1">
                         <TableRow>
-                            <TableCell className="text-center" colSpan={2}>--- TOTAL ---</TableCell>
-                            <TableCell className="text-right">₹{cart?.reduce((total, item) => total + (item.itemPrice * item.quantity), 0)}</TableCell>
+                            <TableCell className="text-center text-xs text-gray-500" colSpan={2}>TOTAL</TableCell>
+                            <TableCell className="text-right text-xs text-gray-500">₹{cart?.reduce((total, item) => total + (item.itemPrice * item.quantity), 0)}</TableCell>
                         </TableRow>
                     </TableFooter>
                 </Table>

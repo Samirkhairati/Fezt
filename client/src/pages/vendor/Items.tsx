@@ -65,7 +65,6 @@ function Items() {
 
     const readItemsByVendor = async () => {
         const response = await axios.get('/api/items/vendor', { params: { vendorId } });
-        console.log(response.data)
         return response.data;
     }
 
