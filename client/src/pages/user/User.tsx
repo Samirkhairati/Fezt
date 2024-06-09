@@ -15,6 +15,9 @@ function User() {
             navigate('/user/home')
         }
     }, [navigate, user])
+    useEffect(() => {
+        navigate('/user/home')
+    }, [navigate])
 
     return (
         <Outlet />

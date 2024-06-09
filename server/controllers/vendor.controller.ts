@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import handler from "../middleware/handler.middleware";
 import Vendor, { IVendor } from "../models/vendor.model";
-import {generateVendorToken} from "../utils/token.util";
+import { generateVendorToken } from "../utils/token.util";
 import bcrypt from 'bcryptjs';
 
 const loginVendor = handler(async (req: Request, res: Response) => {
@@ -39,6 +39,7 @@ const createVendor = handler(async (req: Request, res: Response) => {
         phone: req.body.phone,
         address: req.body.address,
         password: hashedPassword,
+        balance: 0,
     });
 
     const createdVendor = await newVendor.save();
@@ -63,4 +64,9 @@ const logoutVendor = handler(async (req: Request, res: Response) => {
 
 }, '@logoutVendor ERROR: ')
 
-export { loginVendor, logoutVendor, createVendor }
+const readVendors = handler(async (req: Request, res: Response) => {
+    const vendors: IVendor[] = await Vendor.find();
+    res.json(vendors);
+}, '@readVendors ERROR: ')
+
+export { loginVendor, logoutVendor, createVendor, readVendors }

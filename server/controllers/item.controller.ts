@@ -56,10 +56,10 @@ const deleteItem = handler(async (req: any, res: Response) => {
 }, '@deleteIem ERROR: ')
 
 const readItems = handler(async (req: Request, res: Response) => {
-    const { page = 1 } = req.query;
+    const { page = 1, vendorId } = req.query;
     const pageNumber = parseInt(page as string, 10);
     const limitNumber = 3;
-    const items: IItem[] = await Item.find({})
+    const items: IItem[] = await Item.find({ vendor: vendorId })
         .skip((pageNumber - 1) * limitNumber)
         .limit(limitNumber)
         .populate('vendor');

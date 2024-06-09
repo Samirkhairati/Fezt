@@ -6,6 +6,9 @@ interface Store {
 
     vendor: Vendor | null,
     setVendor: (vendor: Vendor) => void
+
+    cart: Item[],
+    setCart: (cart: Item[]) => void
 }
 
 interface User {
@@ -28,13 +31,24 @@ interface Vendor {
     address: string,
 }
 
+interface Item {
+    _id: string,
+    quantity: number,
+    vendorId: string,
+    itemName: string,
+    itemPrice: number,
+}
+
 const useStore = create<Store>((set) => ({
 
     user: null,
     setUser: (user) => set({ user }),
 
     vendor: null,
-    setVendor: (vendor) => set({ vendor })
+    setVendor: (vendor) => set({ vendor }),
+
+    cart: [],
+    setCart: (cart) => set({ cart }),
 }))
 
 export default useStore

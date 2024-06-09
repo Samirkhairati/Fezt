@@ -8,6 +8,7 @@ export interface IVendor extends Document {
     address?: string;
     phone?: string;
     password?: string;
+    balance?: number;
 }
 
 const vendorSchema: Schema<IVendor> = new Schema({
@@ -33,6 +34,10 @@ const vendorSchema: Schema<IVendor> = new Schema({
     },
     password: {
         type: String,
+        required: false,
+    },
+    balance: {
+        type: Number,
         required: false,
     },
 }, { timestamps: true });

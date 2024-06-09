@@ -16,6 +16,7 @@ const vendor_routes_1 = __importDefault(require("./routes/vendor.routes"));
 const club_routes_1 = __importDefault(require("./routes/club.routes"));
 const events_routes_1 = __importDefault(require("./routes/events.routes"));
 const items_routes_1 = __importDefault(require("./routes/items.routes"));
+const order_routes_1 = __importDefault(require("./routes/order.routes"));
 // SETUP ==========================================
 dotenv_1.default.config();
 (0, mongo_config_1.default)();
@@ -35,6 +36,7 @@ app.use("/api/vendors", vendor_routes_1.default);
 app.use("/api/clubs", club_routes_1.default);
 app.use("/api/events", events_routes_1.default);
 app.use("/api/items", items_routes_1.default);
+app.use("/api/orders", order_routes_1.default);
 // BUILD ==========================================
 app.use(express_1.default.static(path_1.default.join(location, '../client/dist')));
 app.get('*', (req, res) => {

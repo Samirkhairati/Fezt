@@ -12,6 +12,7 @@ import vendorRoutes from './routes/vendor.routes';
 import clubRoutes from './routes/club.routes';
 import eventRoutes from './routes/events.routes';
 import itemRoutes from './routes/items.routes';
+import orderRoutes from './routes/order.routes';
 // SETUP ==========================================
 dotenv.config();
 mongo()
@@ -35,6 +36,7 @@ app.use("/api/vendors", vendorRoutes);
 app.use("/api/clubs", clubRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/items", itemRoutes);
+app.use("/api/orders", orderRoutes);
 
 // BUILD ==========================================
 app.use(express.static(path.join(location, '../client/dist')));
