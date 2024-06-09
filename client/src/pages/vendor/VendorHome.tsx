@@ -4,7 +4,7 @@ function Home() {
 
     //TODO: custom props
     return (
-        <Wrapper redirect="/user/home" title="DASHBOARD">
+        <Wrapper redirect="/vendor/home" title="DASHBOARD">
             <div className="w-full h-[20%] flex flex-row gap-4">
                 <Link to='/vendor/orders' className="w-[100%] md:hover:scale-105 transition-transform ease-in-out duration-300 relative h-full border-white border-4 bg-[url('/pattern2.png')] bg-cover bg-center font-black">
                     <div className="absolute flex flex-col top-3 left-3">

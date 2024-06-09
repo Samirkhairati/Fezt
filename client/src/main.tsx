@@ -12,6 +12,7 @@ import Home from './pages/user/Home'
 import Dashboard from './pages/user/Dashboard'
 import ClubsDashboard from './pages/user/ClubsDashboard'
 import EventsDashboard from './pages/user/EventsDashboard'
+import Shop from './pages/user/Shop'
 // VENDOR ========================================================
 import Vendor from './pages/vendor/Vendor'
 import VendorHome from './pages/vendor/VendorHome'
@@ -43,8 +44,8 @@ const router = createBrowserRouter(
         <Route path="home" element={<Home />} />
         <Route path="events" element={<Events />} />
         {/* <Route path="wallet" element={<Wallet />} />
-        <Route path="orders" element={<Orders />} />
-        <Route path="shop" element={<Shop />} /> */}
+        <Route path="orders" element={<Orders />} /> */}
+        <Route path="shop" element={<Shop />} />
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="dashboard/clubs" element={<ClubsDashboard />} />
         <Route path="dashboard/events" element={<EventsDashboard />} />

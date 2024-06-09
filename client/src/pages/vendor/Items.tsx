@@ -19,6 +19,7 @@ import toast from "react-hot-toast";
 import useStore from "@/actions/store";
 import { MdEdit } from "react-icons/md";
 import { useState } from "react";
+import { Avatar } from "@/components/ui/avatar";
 
 //TODO: button colors
 
@@ -48,6 +49,7 @@ interface ItemSchema {
     vendor: {
         _id: string,
         name: string,
+        image: string
     },
 }
 
@@ -209,11 +211,15 @@ function Items() {
                     items?.map((item: ItemSchema, index: number) => (
                         <div key={index} className="w-full h-[170px] md:h-[25%] flex flex-row gap-4">
                             <div className={`relative flex items-center justify-start w-[100%] md:hover:scale-105 transition-transform ease-in-out duration-300 h-full border-white border-4 bg-[url('/pattern4.png')] bg-cover bg-center`}>
-                                <img className='contrast-150 object-cover h-full aspect-square border-white' src={item.image} />
+                                <img className='h-full object-contain aspect-square border-white' src={item.image} />
                                 <div className="py-3 px-7 flex flex-col justify-center h-full">
                                     <h2 className="text-xs md:text-xl font-extrabold uppercase leading-tight text-wrap text-black opacity-90">{item.name}</h2>
-                                    <p className="text-xs md:text-base mt-1 font-bold text-black opacity-60 leading-tight">{item.vendor.name}</p>
-                                    <p className="text-xs md:text-lg font-extrabold text-black opacity-80 leading-tight">₹ {item.price || 'FREE'}</p>
+                                    <p className="text-xs md:text-base mt-1 font-bold text-black opacity-80 leading-tight flex items-center gap-1">
+                                        <Avatar className="w-5 h-5 border-[1px] p-[2px] bg-white border-gray-50 ">
+                                            <img src={item.vendor.image} alt="User Avatar" />
+                                        </Avatar>
+                                        {item.vendor.name}</p>
+                                    <p className="text-xs md:text-xl font-extrabold text-black opacity-80 leading-tight">₹ {item.price || 'FREE'}</p>
                                     <div className="absolute right-2 bottom-2 flex-col flex gap-1">
                                         <Dialog>
                                             <DialogTrigger>
