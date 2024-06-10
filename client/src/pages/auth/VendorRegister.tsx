@@ -33,6 +33,7 @@ function VendorRegister() {
     //TODO: Add Vendor Register form validation
     //TODO: Add Forgot Password
     //TODO: Add Verification Email
+    //TODO: upload size limit
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 

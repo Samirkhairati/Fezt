@@ -58,7 +58,7 @@ function Orders() {
                             <TableCaption className="text-center mt-0 text-[#827769]">
                                 ----------------------------------------------
                                 <br /><br />
-                                <Stepper stage={3} />
+                                <Stepper stage={order.stage} />
                                 <p className=" text-xs md:text-base mt-2 font-bold text-black leading-tight flex items-center justify-center grayscale opacity-25 gap-1">
                                     <Avatar className="w-5 h-5 border-[1px] p-[2px] bg-white border-gray-50 ">
                                         <img src={order.vendor.image} alt="User Avatar" />

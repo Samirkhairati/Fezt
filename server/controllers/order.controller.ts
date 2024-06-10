@@ -37,26 +37,30 @@ const updateOrder = handler(async (req: Request, res: Response) => {
 }, '@readItemsByVendor ERROR: ');
 
 const readOrdersByUser = handler(async (req: any, res: Response) => {
-    //if (req.query.userId !== req.user._id) res.status(400).json({ message: 'You are not authorized to view these orders' })
-    if(0) console.log()
+    console.log(req.query.userId)
+    if (req.query.userId.toString() !== req.user._id.toString()) res.status(400).json({ message: 'You are not authorized to view these orders' })
     else {
+        console.log(req.query.userId)
         const orders: IOrder[] = await Order.find({ user: req.query.userId })
             .sort({ createdAt: -1 })
             .populate('vendor')
             .populate('items._id')
             .populate('user');
+        console.log(orders)
         res.json(orders);
     }
 }, '@readItemsByUser ERROR: ');
 
 const readOrdersByVendor = handler(async (req: any, res: Response) => {
-    if (req.query.vendorId !== req.vendor._id) res.status(400).json({ message: 'You are not authorized to view these orders' })
+    if (req.query.vendorId.toString() !== req.vendor._id.toString()) res.status(400).json({ message: 'You are not authorized to view these orders' })
     else {
-        const orders: IOrder[] = await Order.find({ user: req.query.vendorId })
+        console.log(req.query.vendorId)
+        const orders: IOrder[] = await Order.find({ vendor: req.query.vendorId })
             .sort({ createdAt: -1 })
             .populate('vendor')
             .populate('items._id')
             .populate('user');
+        console.log(orders)
         res.json(orders);
     }
 }, '@readItemsByVendor ERROR: ');

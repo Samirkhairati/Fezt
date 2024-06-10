@@ -16,14 +16,14 @@ function Wrapper({ children, redirect, title }: { children: React.ReactNode, red
                 {children}
                 <div className="h-10 w-full opacity-0">.</div>
             </div>
-            <div className="hidden">
+            {/* <div className="hidden">
                 <img src="/pattern2.png" alt="" />
                 <img src="/pattern3.png" alt="" />
                 <img src="/pattern4.png" alt="" />
                 <img src="/pattern5.png" alt="" />
                 <img src="/pattern6.png" alt="" />
                 <img src="/pattern7.png" alt="" />
-            </div>
+            </div> */}
         </div>
     )
 }

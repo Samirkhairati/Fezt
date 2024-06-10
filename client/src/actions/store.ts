@@ -2,10 +2,10 @@ import { create } from 'zustand'
 
 interface Store {
     user: User | null,
-    setUser: (user: User) => void
+    setUser: (user: User | null) => void
 
     vendor: Vendor | null,
-    setVendor: (vendor: Vendor) => void
+    setVendor: (vendor: Vendor | null) => void
 
     cart: Item[],
     setCart: (cart: Item[]) => void
