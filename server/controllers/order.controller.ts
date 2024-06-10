@@ -31,22 +31,28 @@ const createOrder = handler(async (req: any, res: Response) => {
 
 }, '@createOrder ERROR: ');
 
-const updateOrder = handler(async (req: Request, res: Response) => {
-    const items: IItem[] = await Item.find({ vendor: req.query.vendorId }).populate('vendor');
-    res.status(200).json(items);
-}, '@readItemsByVendor ERROR: ');
+const updateOrder = handler(async (req: any, res: Response) => {
+    if (req.body.vendorId.toString() !== req.vendor._id.toString()) res.status(400).json({ message: 'You are not authorized to edit these orders' })
+    else {
+        console.log(req.body)
+        const order: IOrder | null = await Order.findById(req.body.orderId);
+        if (!order) res.status(400).json({ message: 'Order does not exist' });
+        else {
+            order.stage = req.body.stage;
+            await order.save();
+            res.json(order);
+        }
+    }
+}, '@updateOrder ERROR: ');
 
 const readOrdersByUser = handler(async (req: any, res: Response) => {
-    console.log(req.query.userId)
     if (req.query.userId.toString() !== req.user._id.toString()) res.status(400).json({ message: 'You are not authorized to view these orders' })
     else {
-        console.log(req.query.userId)
         const orders: IOrder[] = await Order.find({ user: req.query.userId })
             .sort({ createdAt: -1 })
             .populate('vendor')
             .populate('items._id')
             .populate('user');
-        console.log(orders)
         res.json(orders);
     }
 }, '@readItemsByUser ERROR: ');
@@ -54,16 +60,14 @@ const readOrdersByUser = handler(async (req: any, res: Response) => {
 const readOrdersByVendor = handler(async (req: any, res: Response) => {
     if (req.query.vendorId.toString() !== req.vendor._id.toString()) res.status(400).json({ message: 'You are not authorized to view these orders' })
     else {
-        console.log(req.query.vendorId)
         const orders: IOrder[] = await Order.find({ vendor: req.query.vendorId })
             .sort({ createdAt: -1 })
             .populate('vendor')
             .populate('items._id')
             .populate('user');
-        console.log(orders)
         res.json(orders);
     }
 }, '@readItemsByVendor ERROR: ');
 
 
-export { createOrder, readOrdersByUser, readOrdersByVendor }
+export { createOrder, readOrdersByUser, readOrdersByVendor, updateOrder }

@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/table"
 import axios from "axios";
 import useStore from "@/actions/store";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { IItem } from '../../../../server/models/item.model';
 import { IVendor } from "../../../../server/models/vendor.model";
@@ -22,6 +22,7 @@ import Stepper from "@/components/Stepper";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { FaThumbsUp, FaCheck, FaBoxOpen } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 interface Order {
     _id: string;
@@ -34,11 +35,11 @@ interface Order {
 
 function VendorOrders() {
 
+    const queryClient = useQueryClient();
     const vendorId = useStore(state => state.vendor?._id);
-    console.log(vendorId)
+
     const readOrdersByVendor = async () => {
         const response = await axios.get('/api/orders/vendor', { params: { vendorId } });
-        console.log(response.data)
         return response.data;
     }
     const { data: orders, isLoading } = useQuery({
@@ -47,9 +48,21 @@ function VendorOrders() {
         enabled: !!vendorId
     });
 
+    const updateOrder = async (data: {stage: number, orderId: string}) => {
+        const response = await axios.put('/api/orders', { ...data, vendorId});
+        return response.data;
+    };
+    const { mutate: updateOrderMutation } = useMutation({
+        mutationFn: updateOrder,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['orders', vendorId] });
+            toast.success('Order updated successfully');
+        },
+        onError: (error: any) => {
+            toast.error(error.response.data.message);
+        }
+    });
 
-
-    //TODO: custom props
     return (
         <Wrapper redirect={`/vendor/home`} title="ORDERS">
             {!isLoading && !orders?.length && <div className="text-center text-gray-500 mt-16">No orders found</div>}
@@ -98,9 +111,9 @@ function VendorOrders() {
                             </Table>
                         </div>
                         <div className="w-full flex justify-center gap-2 mt-5">
-                            <Button disabled={order.stage !== 1} className="text-sm bg-amber-700"><FaThumbsUp/></Button>
-                            <Button disabled={order.stage !== 2} className="text-sm bg-amber-700"><FaCheck/></Button>
-                            <Button disabled={order.stage !== 3} className="text-sm bg-amber-700"><FaBoxOpen/></Button>
+                            <Button onClick={() => updateOrderMutation({ stage: 2, orderId: order._id })} disabled={order.stage !== 1} className="text-sm bg-amber-700"><FaCheck /></Button>
+                            <Button onClick={() => updateOrderMutation({ stage: 3, orderId: order._id })} disabled={order.stage !== 2} className="text-sm bg-amber-700"><FaThumbsUp /></Button>
+                            <Button onClick={() => updateOrderMutation({ stage: 4, orderId: order._id })} disabled={order.stage !== 3} className="text-sm bg-amber-700"><FaBoxOpen /></Button>
                         </div>
                     </>
                 ))

@@ -35,7 +35,6 @@ function Orders() {
     const userId = useStore(state => state.user?._id)
     const readOrdersByUser = async () => {
         const response = await axios.get('/api/orders/user', { params: { userId } });
-        console.log(response.data)
         return response.data;
     }
     const { data: orders, isLoading } = useQuery({
