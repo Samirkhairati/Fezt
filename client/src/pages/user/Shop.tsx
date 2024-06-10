@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { IoMdArrowDropright } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
 
+//TODO: refactor into components everything
+
 interface ItemSchema {
     _id: string;
     name: string;

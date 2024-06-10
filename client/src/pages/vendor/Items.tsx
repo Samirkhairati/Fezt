@@ -22,6 +22,7 @@ import { useState } from "react";
 import { Avatar } from "@/components/ui/avatar";
 
 //TODO: button colors
+//TODO: yellow background opacity
 
 interface CreateItem {
     name: string,

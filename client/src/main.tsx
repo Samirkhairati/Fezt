@@ -15,11 +15,13 @@ import Shop from './pages/user/Shop'
 import Vendors from './pages/user/Vendors'
 import Cart from './pages/user/Cart'
 import Orders from './pages/user/Orders'
+import Wallet from './pages/user/Wallet'
 // VENDOR ========================================================
 import Vendor from './pages/vendor/Vendor'
 import VendorHome from './pages/vendor/VendorHome'
 import Items from './pages/vendor/Items'
 import VendorOrders from './pages/vendor/VendorOrders'
+import Finances from './pages/vendor/Finances'
 // PACKAGES ========================================================
 import {
   Route,
@@ -44,7 +46,7 @@ const router = createBrowserRouter(
       <Route path="user" element={<User />} >
         <Route path="home" element={<Home />} />
         <Route path="events" element={<Events />} />
-        {/* <Route path="wallet" element={<Wallet />} /> */}
+        <Route path="wallet" element={<Wallet />} />
         <Route path="orders" element={<Orders />} />
         <Route path="cart" element={<Cart />} />
         <Route path="shop" element={<Vendors />} />
@@ -59,6 +61,7 @@ const router = createBrowserRouter(
         <Route path="home" element={<VendorHome />} />
         <Route path="items" element={<Items />} />
         <Route path="orders" element={<VendorOrders />} />
+        <Route path="finances" element={<Finances />} />
       </Route>
 
     </Route>

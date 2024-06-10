@@ -69,4 +69,9 @@ const readVendors = handler(async (req: Request, res: Response) => {
     res.json(vendors);
 }, '@readVendors ERROR: ')
 
-export { loginVendor, logoutVendor, createVendor, readVendors }
+const getVendor = handler(async (req: Request, res: Response) => {
+    const vendor: IVendor | null = await Vendor.findOne({ _id: req.query.vendorId });
+    res.json(vendor)
+}, '@getUser ERROR:')
+
+export { loginVendor, logoutVendor, createVendor, readVendors, getVendor }

@@ -1,5 +1,5 @@
 import express from 'express';
-import { createVendor, loginVendor, logoutVendor, readVendors } from '../controllers/vendor.controller';
+import { createVendor, loginVendor, logoutVendor, readVendors, getVendor } from '../controllers/vendor.controller';
 const router = express.Router();
 
 router.route('/')
@@ -11,5 +11,8 @@ router.route('/login')
 
 router.route('/logout')
     .post(logoutVendor)
+
+router.route('/profile')
+    .get(getVendor)
 
 export default router;

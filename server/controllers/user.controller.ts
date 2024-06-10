@@ -49,4 +49,9 @@ const logoutUser = handler(async (req: Request, res: Response) => {
 
 }, '@logoutUser ERROR: ')
 
-export { loginUser, logoutUser, createUser }
+const getUser = handler(async (req: Request, res: Response) => {
+    const user: IUser | null = await User.findOne({ _id: req.query.userId });
+    res.json(user)
+}, '@getUser ERROR:')
+
+export { loginUser, logoutUser, createUser, getUser}
