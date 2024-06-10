@@ -1,4 +1,3 @@
-
 // AUTH ========================================================
 import Start from './pages/auth/Start'
 import UserLogin from './pages/auth/UserLogin'
@@ -20,8 +19,8 @@ import Orders from './pages/user/Orders'
 import Vendor from './pages/vendor/Vendor'
 import VendorHome from './pages/vendor/VendorHome'
 import Items from './pages/vendor/Items'
+import VendorOrders from './pages/vendor/VendorOrders'
 // PACKAGES ========================================================
-
 import {
   Route,
   RouterProvider,
@@ -31,7 +30,6 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-
 // SETUP =======================================================
 const queryClient = new QueryClient()
 const router = createBrowserRouter(
@@ -60,7 +58,7 @@ const router = createBrowserRouter(
       <Route path="vendor" element={<Vendor />} >
         <Route path="home" element={<VendorHome />} />
         <Route path="items" element={<Items />} />
-        <Route path="orders" element={<Events />} />
+        <Route path="orders" element={<VendorOrders />} />
       </Route>
 
     </Route>

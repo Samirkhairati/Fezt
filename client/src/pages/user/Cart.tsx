@@ -29,7 +29,7 @@ function Cart() {
     const cart = useStore(state => state.cart);
     const setCart = useStore(state => state.setCart);
     const userId = useStore(state => state.user?._id);
-    const items = cart.map(item => ({ _id: item._id, quantity: item.quantity }));
+    const items = cart?.map(item => ({ _id: item._id, quantity: item.quantity }));
 
     const placeOrder = async () => {
         const response = await axios.post('/api/orders', { vendor: vendorId, user: userId, items });

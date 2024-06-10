@@ -49,7 +49,7 @@ function Orders() {
     //TODO: custom props
     return (
         <Wrapper redirect={`/user/home`} title="ORDERS">
-            {!isLoading && !orders.length && <div className="text-center text-gray-500 mt-16">No orders found</div>}
+            {!isLoading && !orders?.length && <div className="text-center text-gray-500 mt-16">No orders found</div>}
             {isLoading ? <Loader2 className="w-full text-white text-center" /> :
 
                 orders?.map((order: Order) => (

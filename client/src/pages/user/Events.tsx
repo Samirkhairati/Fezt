@@ -84,14 +84,14 @@ function EventsDashboard() {
 
     return (
         <Wrapper redirect="/user/home" title="EVENTS">
-            {items.length === 0 && status === 'success' && <div className="text-center text-white">No events available</div>}
+            {items?.length === 0 && status === 'success' && <div className="text-center text-white">No events available</div>}
             {status === 'pending' ? (
                 <Loader2 className="w-full text-white text-center" />
             ) : status === 'error' ? (
                 <div>{error.message}</div>
             ) : (
                 <>
-                    {items.map((event: EventSchema) => (
+                    {items?.map((event: EventSchema) => (
                         <div key={event._id} className="w-full h-[170px] md:h-[25%] flex flex-row gap-4">
                             <div className={`relative flex items-center justify-start w-[100%] md:hover:scale-105 transition-transform ease-in-out duration-300 h-full border-white border-4 bg-[url('/pattern2.png')] bg-cover bg-center`}>
                                 <img className='grayscale opacity-80 contrast-150 object-cover h-full aspect-square border-white' src={event.image} />

@@ -52,7 +52,7 @@ const readOrdersByUser = handler(async (req: any, res: Response) => {
 const readOrdersByVendor = handler(async (req: any, res: Response) => {
     if (req.query.vendorId !== req.vendor._id) res.status(400).json({ message: 'You are not authorized to view these orders' })
     else {
-        const orders: IOrder[] = await Order.find({ user: req.query.VendorId })
+        const orders: IOrder[] = await Order.find({ user: req.query.vendorId })
             .sort({ createdAt: -1 })
             .populate('vendor')
             .populate('items._id')
@@ -62,4 +62,4 @@ const readOrdersByVendor = handler(async (req: any, res: Response) => {
 }, '@readItemsByVendor ERROR: ');
 
 
-export { createOrder, readOrdersByUser }
+export { createOrder, readOrdersByUser, readOrdersByVendor }
