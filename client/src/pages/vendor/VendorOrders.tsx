@@ -313,7 +313,7 @@ function EventsDashboard() {
                                             </DialogTrigger>
                                             <DialogContent className="">
                                                 <DialogHeader>
-                                                    <DialogTitle>Are you sure you want to delete this event?</DialogTitle>
+                                                    <DialogTitle className="leading-normal">Are you sure you want to delete this event?</DialogTitle>
                                                     <DialogDescription>
                                                         <form onSubmit={handleSubmitDelete(onSubmitDelete)} className="w-full flex flex-col gap-y-2 mt-2">
                                                             <input type="hidden" value={event.club._id} {...registerDelete('club')} />

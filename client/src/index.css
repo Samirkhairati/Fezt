@@ -115,3 +115,40 @@ div {
   background-image: linear-gradient(45deg, #e5e7eb 25%, transparent 25%), linear-gradient(315deg, #e5e7eb 25%, transparent 25%);
   background-position: 0 0;
 }
+
+
+.ticket {
+  position: relative;
+}
+
+.ticket::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 100%;
+  z-index: 10;
+  display: block;
+  height: 30px;
+  background-size: 16px 100%;
+  background-image: radial-gradient(circle at top, transparent 5px, #dad6ba 6px);
+  background-repeat: repeat-x;
+}
+
+.ticket::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 100%;
+  z-index: 10;
+  display: block;
+  height: 30px;
+  background-size: 16px 100%;
+  background-image: radial-gradient(circle at top, transparent 5px, #dad6ba 6px);
+  background-repeat: repeat-x;
+  rotate: 180deg;
+}
+* {
+  border-color:#78734900;
+}

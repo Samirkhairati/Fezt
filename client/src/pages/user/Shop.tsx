@@ -54,7 +54,7 @@ function Shop() {
                 }
             }
         } else {
-            newCart.push({ _id: itemId, quantity: 1, vendorId: vendorId as string, itemName: itemName as string, itemPrice: itemPrice as number});
+            newCart.push({ _id: itemId, quantity: 1, vendorId: vendorId as string, itemName: itemName as string, itemPrice: itemPrice as number });
         }
         setcart(newCart);
     }
@@ -69,6 +69,11 @@ function Shop() {
 
     return (
         <Wrapper redirect="/user/shop" title="SHOP">
+            <Button disabled={!cart.length} onClick={() => navigate(`/user/shop/${vendorId}/cart`)} className="w-full gap-4 justify-center bottom-20 bg-slate-800 text-lg shadow-xl h-14 max-w-md font-black text-purple-300">
+                <span>CART:</span>
+                <span className="ml-1">₹{cart.reduce((total, item) => total + (item.quantity * (items.find(i => i._id === item._id)?.price || 0)), 0)}</span>
+                <span className="text-3xl"><IoMdArrowDropright /></span>
+            </Button>
             {items.length === 0 && status === 'success' && <div className="text-center text-white">No items available</div>}
             {status === 'pending' ? (
                 <Loader2 className="w-full text-white text-center" />
@@ -89,7 +94,7 @@ function Shop() {
                                         {item.vendor.name}</p>
                                     <p className="text-xs md:text-xl font-extrabold text-black opacity-80 leading-tight mt-1 onclick={}">₹ {item.price || 'FREE'}</p>
                                     <div className="absolute right-2 bottom-2 flex">
-                                        <Button onClick={() => addToCart(item._id,  item.name, item.price as number, '-')} type="button" size='icon' className="bg-slate-950 text-white text-xs w-6 h-6 rounded-none rounded-l-sm">-</Button>
+                                        <Button onClick={() => addToCart(item._id, item.name, item.price as number, '-')} type="button" size='icon' className="bg-slate-950 text-white text-xs w-6 h-6 rounded-none rounded-l-sm">-</Button>
                                         <Button type="button" size='icon' disabled={true} className="bg-white text-black text-xs w-6 h-6 rounded-none ">{cart.find(cartItem => cartItem._id === item._id)?.quantity || 0}</Button>
                                         <Button onClick={() => addToCart(item._id, item.name, item.price as number, '+')} type="button" size='icon' className="bg-slate-950 text-white text-xs w-6 h-6 rounded-none rounded-r-sm ">+</Button>
                                     </div>
@@ -100,11 +105,6 @@ function Shop() {
                     <div ref={ref}>{isFetchingNextPage && <Loader2 className="w-full text-white text-center" />}</div>
                 </>
             )}
-            <Button disabled={!cart.length} onClick={() => navigate(`/user/shop/${vendorId}/cart`)} className="w-full absolute z-20 gap-4 justify-center bottom-20 bg-slate-800 text-lg shadow-xl h-14 max-w-md font-black opacity-70 text-purple-300">
-                <span>CART:</span>
-                <span className="ml-1">₹{cart.reduce((total, item) => total + (item.quantity * (items.find(i => i._id === item._id)?.price || 0)), 0)}</span>
-                <span className="text-3xl"><IoMdArrowDropright /></span>
-            </Button>
 
         </Wrapper>
     );

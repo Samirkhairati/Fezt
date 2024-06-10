@@ -190,7 +190,7 @@ function ClubsDashboard() {
                                                 </DialogTrigger>
                                                 <DialogContent className="">
                                                     <DialogHeader>
-                                                        <DialogTitle>Are you sure you want to delete this club?</DialogTitle>
+                                                        <DialogTitle className="leading-normal">Are you sure you want to delete this club?</DialogTitle>
                                                         <DialogDescription>
                                                             <form onSubmit={handleSubmit(onSubmitDelete)} className="w-full flex flex-col gap-y-2 mt-2">
                                                                 <input type="hidden" value={club._id} {...register('_id')} />

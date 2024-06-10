@@ -209,7 +209,7 @@ function Items() {
                 items?.length === 0 ? <p className="text-white text-center">No items created yet</p> :
                     items?.map((item: ItemSchema, index: number) => (
                         <div key={index} className="w-full h-[170px] md:h-[25%] flex flex-row gap-4">
-                            <div className={`relative flex items-center justify-start w-[100%] md:hover:scale-105 transition-transform ease-in-out duration-300 h-full border-white border-4 bg-[url('/pattern4.png')] bg-cover bg-center`}>
+                            <div className={`relative flex items-center justify-start w-[100%] md:hover:scale-105 transition-transform ease-in-out duration-300 h-full border-white border-4 bg-[url('/pattern3.png')] bg-cover bg-center`}>
                                 <img className='h-full object-contain aspect-square border-white' src={item.image} />
                                 <div className="py-3 px-7 flex flex-col justify-center h-full">
                                     <h2 className="text-xs md:text-xl font-extrabold uppercase leading-tight text-wrap text-black opacity-90">{item.name}</h2>
@@ -273,7 +273,7 @@ function Items() {
                                             </DialogTrigger>
                                             <DialogContent className="">
                                                 <DialogHeader>
-                                                    <DialogTitle>Are you sure you want to delete this item?</DialogTitle>
+                                                    <DialogTitle className="leading-normal">Are you sure you want to delete this item?</DialogTitle>
                                                     <DialogDescription>
                                                         <form onSubmit={handleSubmitDelete(onSubmitDelete)} className="w-full flex flex-col gap-y-2 mt-2">
                                                             <input type="hidden" value={vendorId} {...registerDelete('vendor')} />

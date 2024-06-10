@@ -37,8 +37,8 @@ function Cart() {
     };
     const { mutate: placeOrderMutation, isPending } = useMutation({
         mutationFn: placeOrder,
-        onSuccess: () => {
-            toast.success("Order placed successfully.");
+        onSuccess: (data) => {
+            toast.success(data.message);
             setCart([]);
             navigate('/user/home')
         },
@@ -62,7 +62,7 @@ function Cart() {
                 </DialogTrigger>
                 <DialogContent className="">
                     <DialogHeader>
-                        <DialogTitle>Are you sure you want to place this order? It will cost you ₹{cart?.reduce((total, item) => total + (item.itemPrice * item.quantity), 0)}</DialogTitle>
+                        <DialogTitle className="leading-normal">Are you sure you want to place this order? It will cost you ₹{cart?.reduce((total, item) => total + (item.itemPrice * item.quantity), 0)}</DialogTitle>
                         <DialogDescription>
                             <Button disabled={isPending} onClick={() => placeOrderMutation()} className="mt-5 w-full">
                                 {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -72,15 +72,10 @@ function Cart() {
                     </DialogHeader>
                 </DialogContent>
             </Dialog>
-            <div className="bg-gray-200 py-6 px-2 spikes w-full">
+            <div className="bg-gray-200 py-6 px-2 spikes w-full max-w-[350px] mt-14">
                 <Table>
-                    <TableCaption className="hidden md:table-caption text-center mt-0 text">
-                        ------------------------------------------------------------
-                        <br /><br />
-                        *** Thank you ***
-                    </TableCaption>
-                    <TableCaption className="table-caption md:hidden text-center mt-0 text">
-                        ---------------------------------------------
+                    <TableCaption className="text-center mt-0 text">
+                        ----------------------------------------------
                         <br /><br />
                         *** Thank you ***
                     </TableCaption>

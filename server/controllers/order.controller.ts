@@ -22,7 +22,7 @@ const createOrder = handler(async (req: any, res: Response) => {
             vendor.balance! += total;
             await user.save();
             await vendor.save();
-            const order: IOrder = new Order({ vendor: req.body.vendor, user: req.body.user, items: req.body.items });
+            const order: IOrder = new Order({ vendor: req.body.vendor, user: req.body.user, items: req.body.items, stage: 1 });
             await order.save();
             const message = `Order Placed. ₹${total} has been deducted from your account. Current balance: ₹${user.balance}`
             res.status(200).json({ message });
@@ -36,15 +36,30 @@ const updateOrder = handler(async (req: Request, res: Response) => {
     res.status(200).json(items);
 }, '@readItemsByVendor ERROR: ');
 
-const readOrdersByUser = handler(async (req: Request, res: Response) => {
-    const items: IItem[] = await Item.find({ vendor: req.query.vendorId }).populate('vendor');
-    res.status(200).json(items);
+const readOrdersByUser = handler(async (req: any, res: Response) => {
+    //if (req.query.userId !== req.user._id) res.status(400).json({ message: 'You are not authorized to view these orders' })
+    if(0) console.log()
+    else {
+        const orders: IOrder[] = await Order.find({ user: req.query.userId })
+            .sort({ createdAt: -1 })
+            .populate('vendor')
+            .populate('items._id')
+            .populate('user');
+        res.json(orders);
+    }
+}, '@readItemsByUser ERROR: ');
+
+const readOrdersByVendor = handler(async (req: any, res: Response) => {
+    if (req.query.vendorId !== req.vendor._id) res.status(400).json({ message: 'You are not authorized to view these orders' })
+    else {
+        const orders: IOrder[] = await Order.find({ user: req.query.VendorId })
+            .sort({ createdAt: -1 })
+            .populate('vendor')
+            .populate('items._id')
+            .populate('user');
+        res.json(orders);
+    }
 }, '@readItemsByVendor ERROR: ');
 
-const readOrdersByVendor = handler(async (req: Request, res: Response) => {
-    const items: IItem[] = await Item.find({ vendor: req.query.vendorId }).populate('vendor');
-    res.status(200).json(items);
-}, '@readItemsByVendor ERROR: ');
 
-
-export { createOrder }
+export { createOrder, readOrdersByUser }
