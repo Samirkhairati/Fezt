@@ -33,6 +33,8 @@ interface Order {
     createdAt: string
 }
 
+//TODO: separate completed and pending orders
+
 function VendorOrders() {
 
     const queryClient = useQueryClient();

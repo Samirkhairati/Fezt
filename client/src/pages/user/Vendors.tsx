@@ -25,7 +25,6 @@ function Vendors() {
         enabled: !!userId
     });
 
-    //TODO: custom props
     return (
         <Wrapper redirect="/user/home" title="VENDORS">
             {readIsLoading ? <Loader2 className="w-full text-white text-center" /> :

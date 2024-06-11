@@ -23,6 +23,8 @@ interface EventSchema {
     registered?: string[];
 }
 
+//TODO: better credit card design
+
 function Wallet() {
 
     const userId = useStore(state => state.user?._id);

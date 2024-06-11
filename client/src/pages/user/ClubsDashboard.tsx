@@ -115,7 +115,6 @@ function ClubsDashboard() {
         deleteClubMutation(data);
     };
 
-    //TODO: custom props for images
     return (
         <Wrapper redirect="/user/dashboard" title="CLUBS">
             <Dialog>

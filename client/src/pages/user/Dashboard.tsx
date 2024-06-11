@@ -1,8 +1,6 @@
 import Wrapper from "@/components/Wrapper"
 import { Link } from "react-router-dom"
 function Dashboard() {
-
-    //TODO: custom props
     return (
         <Wrapper redirect="/user/home" title="DASHBOARD">
             <div className="w-full h-[20%] flex flex-row gap-4">

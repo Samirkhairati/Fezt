@@ -53,7 +53,6 @@ function Cart() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [vendorId])
 
-    //TODO: custom props
     return (
         <Wrapper redirect={`/user/shop/${vendorId}`} title="CART">
             <Dialog>

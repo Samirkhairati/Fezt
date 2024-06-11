@@ -4,8 +4,6 @@ import { Outlet, useNavigate } from 'react-router-dom'
 
 function User() {
 
-    //TODO: Toast Redirect messages
-
     const vendor = useStore(state => state.vendor)
     const navigate = useNavigate()
     useEffect(() => {

@@ -43,9 +43,6 @@ function Orders() {
         enabled: !!userId
     });
 
-
-
-    //TODO: custom props
     return (
         <Wrapper redirect={`/user/home`} title="ORDERS">
             {!isLoading && !orders?.length && <div className="text-center text-gray-500 mt-16">No orders found</div>}
