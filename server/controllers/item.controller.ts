@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import handler from "../middleware/handler.middleware";
 import Vendor, { IVendor } from "../models/vendor.model";
 import Item, { IItem } from "../models/item.model";
+import { redis } from "..";
 //TODO: all controllers in if else instead of just if
 
 const createItem = handler(async (req: any, res: Response) => {
@@ -22,6 +23,7 @@ const createItem = handler(async (req: any, res: Response) => {
             _id: createdItem._id,
         })
     }
+    await redis.del('items');
 
 }, '@createItem ERROR: ');
 
@@ -42,6 +44,7 @@ const updateItem = handler(async (req: any, res: Response) => {
             _id: item._id,
         })
     }
+    await redis.del('items');
 
 }, '@editItem ERROR: ');
 
@@ -53,6 +56,7 @@ const deleteItem = handler(async (req: any, res: Response) => {
         await Item.findByIdAndDelete(item._id);
         res.json({ message: 'Item deleted' });
     }
+    await redis.del('items');
 }, '@deleteIem ERROR: ')
 
 const readItems = handler(async (req: Request, res: Response) => {

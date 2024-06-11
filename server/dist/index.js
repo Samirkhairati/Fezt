@@ -27,7 +27,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.transporter = void 0;
+exports.redis = exports.transporter = void 0;
 // PACKAGES ====================================================================================
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -37,6 +37,7 @@ const path_1 = __importDefault(require("path"));
 const mongo_config_1 = __importDefault(require("./config/mongo.config"));
 const admin = __importStar(require("firebase-admin"));
 const nodemailer_1 = __importDefault(require("nodemailer"));
+const ioredis_1 = require("ioredis");
 // HANDLERS ====================================================================================
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
 const vendor_routes_1 = __importDefault(require("./routes/vendor.routes"));
@@ -76,6 +77,8 @@ exports.transporter = nodemailer_1.default.createTransport({
         pass: process.env.MAIL_PASSWORD
     }
 });
+// REDIS ====================================================================================
+exports.redis = new ioredis_1.Redis(process.env.REDIS);
 // MIDDLEWARE ====================================================================================
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());

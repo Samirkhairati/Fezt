@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import handler from "../middleware/handler.middleware";
 import Club, { IClub } from "../models/club.model";
+import { redis } from "..";
 
 
 const createClub = handler(async (req: Request, res: Response) => {
@@ -21,14 +22,20 @@ const createClub = handler(async (req: Request, res: Response) => {
             _id: createdClub._id,
             revenue: createdClub.revenue,
         })
+        await redis.del('clubs');
     }
-
 
 }, '@createClub ERROR: ');
 
 const readClubs = handler(async (req: Request, res: Response) => {
+    const cachedKey =  await redis.get('clubs');
+    if (cachedKey) {
+        res.json(JSON.parse(cachedKey));
+        return;
+    }
     const clubs: IClub[] = await Club.find({ user: req.query.userId });
     res.json(clubs);
+    await redis.set('clubs', JSON.stringify(clubs), 'EX', 60);
 }, '@readClubs ERROR: ');
 
 const updateClub = handler(async (req: any, res: Response) => {
@@ -44,6 +51,7 @@ const updateClub = handler(async (req: any, res: Response) => {
             _id: club._id,
             revenue: club.revenue,
         })
+        await redis.del('clubs');
     }
 }, '@editClub ERROR: ');
 
@@ -54,6 +62,7 @@ const deleteClub = handler(async (req: any, res: Response) => {
         if (club.user.toString() !== req.user._id.toString()) res.status(400).json({ message: 'You are not authorized to delete this club' });
         await Club.findByIdAndDelete(club._id);
         res.json({ message: 'Club deleted' });
+        await redis.del('clubs');
     }
 }, '@deleteClub ERROR: ')
 

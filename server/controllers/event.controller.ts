@@ -3,6 +3,7 @@ import handler from "../middleware/handler.middleware";
 import Event, { IEvent } from "../models/event.model";
 import Club, { IClub } from "../models/club.model";
 import User, { IUser } from "../models/user.model";
+import { redis } from "..";
 
 
 const createEvent = handler(async (req: any, res: Response) => {
@@ -29,6 +30,7 @@ const createEvent = handler(async (req: any, res: Response) => {
             club: createdEvent.club,
             _id: createdEvent._id,
         })
+        await redis.del('events');
     }
 
 }, '@createEvent ERROR: ');
@@ -55,6 +57,7 @@ const updateEvent = handler(async (req: any, res: Response) => {
             club: event.club,
             _id: event._id,
         })
+        await redis.del('events');
     }
 
 }, '@editEvent ERROR: ');
@@ -69,10 +72,13 @@ const deleteEvent = handler(async (req: any, res: Response) => {
         if (popuplatedClub?.user._id.toString() !== req.user._id.toString()) res.status(400).json({ message: 'You are not authorized to delete an event for this club' })
         await Event.findByIdAndDelete(event._id);
         res.json({ message: 'Event deleted' });
+        await redis.del('events');
     }
 }, '@deleteEvent ERROR: ')
 
 const readEvents = handler(async (req: Request, res: Response) => {
+
+    
     const { page = 1 } = req.query;
     const pageNumber = parseInt(page as string, 10);
     const limitNumber = 3;
@@ -88,6 +94,7 @@ const readEvents = handler(async (req: Request, res: Response) => {
         currentPage: pageNumber,
         nextPage: hasNextPage ? pageNumber + 1 : null,
     });
+
 }, '@readEvents ERROR: ');
 
 

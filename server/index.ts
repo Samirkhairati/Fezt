@@ -7,6 +7,7 @@ import path from 'path';
 import mongo from './config/mongo.config';
 import * as admin from 'firebase-admin';
 import nodemailer from 'nodemailer';
+import { Redis } from 'ioredis';
 // HANDLERS ====================================================================================
 import userRoutes from './routes/user.routes';
 import vendorRoutes from './routes/vendor.routes';
@@ -46,6 +47,8 @@ export const transporter = nodemailer.createTransport({
         pass: process.env.MAIL_PASSWORD
     }
 });
+// REDIS ====================================================================================
+export const redis = new Redis(process.env.REDIS!);
 // MIDDLEWARE ====================================================================================
 app.use(express.json());
 app.use(cookieParser());
