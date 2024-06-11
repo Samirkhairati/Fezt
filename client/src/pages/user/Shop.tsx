@@ -76,7 +76,7 @@ function Shop() {
                 <span className="ml-1">₹{cart?.reduce((total, item) => total + (item.quantity * (items?.find(i => i._id === item._id)?.price || 0)), 0)}</span>
                 <span className="text-3xl"><IoMdArrowDropright /></span>
             </Button>
-            {items?.length === 0 && status === 'success' && <div className="text-center text-white">No items available</div>}
+            {!items?.length && status === 'success' && <div className="text-center text-white">No items available</div>}
             {status === 'pending' ? (
                 <Loader2 className="w-full text-white text-center" />
             ) : status === 'error' ? (
