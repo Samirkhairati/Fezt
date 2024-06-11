@@ -60,7 +60,7 @@ const createVendor = handler(async (req: Request, res: Response) => {
 const verifyVendor = handler(async (req: Request, res: Response) => {
     const vendor: IVendor | null = await Vendor.findOne({ email: req.body.email });
     if (vendor) return res.status(400).json({ message: 'Vendor already exists' });
-    if (req.body.email.endsWith('bits-pilani.ac.in')) return res.status(400).json({ message: 'You are not allowed to make a vendor account' })
+    if (req.body.email.endsWith('bits-pilani.ac.in')) return res.status(400).json({ message: 'You are not allowed to make a vendor account with BITS ID' })
     const newVerify = new Verify({
         code: Math.floor(100000 + Math.random() * 900000),
     });

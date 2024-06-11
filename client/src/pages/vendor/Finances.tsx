@@ -33,7 +33,7 @@ function Finances() {
 
                 </div>
                 <div className="h-[250px] flex w-full relative my-10 flex-shrink-0">
-                    <div className="border-2 border-black border-opacity-45 rounded-3xl absolute z-30 w-full h-[250px] justify-between items-center flex px-8 md:px-12 bg-[#d1e699]">
+                    <div className="border-2 border-black border-opacity-45 rounded-3xl absolute z-30 w-full h-[250px] justify-between items-center flex px-8 md:px-12 bg-[url('/pattern4.png')] bg-cover bg-center">
                         <div>
                             <p className="text-black opacity-50 leading-tight text-4xl md:text-6xl font-bold mb-2">₹ {vendor?.balance}</p>
                             <p className="text-black opacity-40 leading-tight text-lg font-bold">{vendor?.name}</p>
