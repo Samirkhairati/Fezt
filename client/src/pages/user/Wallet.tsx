@@ -68,7 +68,7 @@ function Wallet() {
     useEffect(() => {console.log('Wallet', events)}, [events])
 
     return (
-        <div className="relative flex h-screen overflow-y-scroll pt-5 pb-10 px-5 w-full items-center justify-center bg-[url('/pattern1.png')] bg-cover bg-center">
+        <div className="relative flex h-screen overflow-y-scroll pt-5 pb-10 px-5 w-full items-center justify-center bg-[url('https://i.imgur.com/CXDhpUS.png')] bg-cover bg-center">
             <div className="flex flex-col w-full h-full gap-8 justify-start items-center max-w-md pb-20">
                 <div className="flex flex-row items-center justify-between w-full py-4 px-0">
                     <button onClick={() => navigate('/user/home')} className="h-full opacity-80"><FaArrowLeft className="text-4xl text-white" /></button>
@@ -76,7 +76,7 @@ function Wallet() {
                     <button onClick={() => logout()} className="h-full opacity-80"><LuLogOut className="text-4xl text-white" /></button>
                 </div>
                 <div className="h-[250px] flex w-full relative my-10 flex-shrink-0">
-                    <div className="border-2 border-black border-opacity-45 rounded-3xl absolute z-30 w-full h-[250px] justify-between items-center flex px-8 md:px-12 bg-[url('/pattern3.png')] bg-cover bg-center bg-opacity-10">
+                    <div className="border-2 border-black border-opacity-45 rounded-3xl absolute z-30 w-full h-[250px] justify-between items-center flex px-8 md:px-12 bg-[url('https://i.imgur.com/AkXh4TV.png')] bg-cover bg-center bg-opacity-10">
                         <div>
                             <p className="text-black opacity-50 leading-tight text-4xl md:text-6xl font-bold mb-2">₹{user?.balance}</p>
                             <p className="text-black opacity-40 leading-tight text-lg font-bold">{user?.name}</p>
@@ -96,7 +96,7 @@ function Wallet() {
                 {isLoading ? <Loader2 className="w-full text-white text-center" /> :
                     events?.map((event: EventSchema) => (
                         <div key={event._id} className="w-full h-[170px] md:h-[25%] flex flex-row gap-4">
-                            <div className={`relative flex items-center justify-start w-[100%] md:hover:scale-105 transition-transform ease-in-out duration-300 h-full border-white border-4 bg-[url('/pattern2.png')] bg-cover bg-center`}>
+                            <div className={`relative flex items-center justify-start w-[100%] md:hover:scale-105 transition-transform ease-in-out duration-300 h-full border-white border-4 bg-[url('https://i.imgur.com/r7bvMw8.png')] bg-cover bg-center`}>
                                 <img className='grayscale opacity-80 contrast-150 object-cover h-full aspect-square border-white' src={event.image} />
                                 <div className="py-3 px-7 flex flex-col justify-center h-full">
                                     <h2 className="text-xs md:text-lg font-extrabold uppercase leading-tight text-wrap text-black opacity-90">{event.name}</h2>

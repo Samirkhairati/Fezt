@@ -96,7 +96,7 @@ function EventsDashboard() {
                 <>
                     {items?.map((event: EventSchema) => (
                         <div key={event._id} className="w-full h-[170px] md:h-[25%] flex flex-row gap-4">
-                            <div className={`relative flex items-center justify-start w-[100%] md:hover:scale-105 transition-transform ease-in-out duration-300 h-full border-white border-4 bg-[url('/pattern2.png')] bg-cover bg-center`}>
+                            <div className={`relative flex items-center justify-start w-[100%] md:hover:scale-105 transition-transform ease-in-out duration-300 h-full border-white border-4 bg-[url('https://i.imgur.com/r7bvMw8.png')] bg-cover bg-center`}>
                                 <img className='grayscale opacity-80 contrast-150 object-cover h-full aspect-square border-white' src={event.image} />
                                 <div className="py-3 px-7 flex flex-col justify-center h-full">
                                     <h2 className="text-xs md:text-lg font-extrabold uppercase leading-tight text-wrap text-black opacity-90">{event.name}</h2>

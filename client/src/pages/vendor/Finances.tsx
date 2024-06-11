@@ -24,7 +24,7 @@ function Finances() {
     });
 
     return (
-        <div className="relative flex h-screen overflow-y-scroll pt-5 pb-10 px-5 w-full items-center justify-center bg-[url('/pattern1.png')] bg-cover bg-center">
+        <div className="relative flex h-screen overflow-y-scroll pt-5 pb-10 px-5 w-full items-center justify-center bg-[url('https://i.imgur.com/CXDhpUS.png')] bg-cover bg-center">
             <div className="flex flex-col w-full h-full gap-8 justify-start items-center max-w-md pb-20">
                 <div className="flex flex-row items-center justify-between w-full py-4 px-0">
                     <button onClick={() => navigate('/vendor/home')} className="h-full opacity-80"><FaArrowLeft className="text-4xl text-white" /></button>
@@ -33,7 +33,7 @@ function Finances() {
 
                 </div>
                 <div className="h-[250px] flex w-full relative my-10 flex-shrink-0">
-                    <div className="border-2 border-black border-opacity-45 rounded-3xl absolute z-30 w-full h-[250px] justify-between items-center flex px-8 md:px-12 bg-[url('/pattern4.png')] bg-cover bg-center">
+                    <div className="border-2 border-black border-opacity-45 rounded-3xl absolute z-30 w-full h-[250px] justify-between items-center flex px-8 md:px-12 bg-[url('https://i.imgur.com/ztFyrbl.png')] bg-cover bg-center">
                         <div>
                             <p className="text-black opacity-50 leading-tight text-4xl md:text-6xl font-bold mb-2">₹ {vendor?.balance}</p>
                             <p className="text-black opacity-40 leading-tight text-lg font-bold">{vendor?.name}</p>

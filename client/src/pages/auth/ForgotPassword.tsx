@@ -71,7 +71,7 @@ function ForgotPassword() {
   };
 
   return (
-    <div className="relative flex min-h-screen pb-10 w-full items-center justify-center bg-[url('/splash.png')] bg-cover bg-center">
+    <div className="relative flex min-h-screen pb-10 w-full items-center justify-center bg-[url('https://i.imgur.com/RrdPB20.png')] bg-cover bg-center">
       <div className="absolute inset-0 bg-gradient-to-t from-transparent to-black" />
       <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
       <div className="flex flex-col items-center gap-8 relative z-10">

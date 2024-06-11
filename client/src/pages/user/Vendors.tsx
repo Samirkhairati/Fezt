@@ -30,7 +30,7 @@ function Vendors() {
             {readIsLoading ? <Loader2 className="w-full text-white text-center" /> :
                 vendors?.map((vendor: VendorSchema) => (
                     <div className="w-full h-[15%] flex flex-row gap-4">
-                        <Link to={`/user/shop/${vendor._id}`} className="flex items-center w-[100%] md:hover:scale-105 transition-transform ease-in-out duration-300 relative h-full border-white border-4 bg-[url('/pattern5.png')] bg-cover bg-center font-black">
+                        <Link to={`/user/shop/${vendor._id}`} className="flex items-center w-[100%] md:hover:scale-105 transition-transform ease-in-out duration-300 relative h-full border-white border-4 bg-[url('https://i.imgur.com/kfZRxhl.png')] bg-cover bg-center font-black">
                             <div className="text-4xl pl-10 text-white opacity-80 text-center">{vendor.name}</div>
                             <img className='absolute bottom-0 right-0 transform h-full w-auto' src={vendor.image} />
                         </Link>
