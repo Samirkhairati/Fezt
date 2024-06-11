@@ -27,6 +27,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { MdEdit } from "react-icons/md";
+import { IClub } from '../../../../server/models/club.model';
 
 interface CreateClub {
     name: string,
@@ -65,7 +66,7 @@ function ClubsDashboard() {
         return response.data;
     };
 
-    const { data: clubs, isLoading: readIsLoading } = useQuery({
+    const { data: clubs, isLoading: readIsLoading } = useQuery<IClub[]>({
         queryKey: ['clubs'],
         queryFn: readClubs,
         enabled: !!userId
@@ -142,7 +143,7 @@ function ClubsDashboard() {
                 </DialogContent>
             </Dialog>
             {readIsLoading ? <Loader2 className="w-full text-white text-center" /> :
-                clubs?.length === 0 ? <p className="text-white text-center">No clubs created yet</p> :
+                !clubs?.length ? <p className="text-white text-center">No clubs created yet</p> :
                     <div className="bg-white w-full pt-4 pb-2 rounded-xl">
                         <Table>
                             <TableHeader>
@@ -153,7 +154,7 @@ function ClubsDashboard() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {clubs?.map((club: any, index: number) => (
+                                {clubs?.map((club, index: number) => (
                                     <TableRow key={index}>
                                         <TableCell className="font-medium text-center">{club.name}</TableCell>
                                         <TableCell className="text-center">₹{club.revenue}</TableCell>

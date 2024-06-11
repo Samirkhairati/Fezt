@@ -207,7 +207,7 @@ function Items() {
                 </DialogContent>
             </Dialog>
             {readIsLoading ? <Loader2 className="w-full text-white text-center" /> :
-                items?.length === 0 ? <p className="text-white text-center">No items created yet</p> :
+                !items?.length ? <p className="text-white text-center">No items created yet</p> :
                     items?.map((item: ItemSchema, index: number) => (
                         <div key={index} className="w-full h-[170px] md:h-[25%] flex flex-row gap-4">
                             <div className={`relative flex items-center justify-start w-[100%] md:hover:scale-105 transition-transform ease-in-out duration-300 h-full border-white border-4 bg-[url('/pattern3.png')] bg-cover bg-center`}>

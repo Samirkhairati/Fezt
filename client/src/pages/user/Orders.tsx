@@ -38,7 +38,7 @@ function Orders() {
         return response.data;
     }
     const { data: orders, isLoading } = useQuery({
-        queryKey: ['orders', userId],
+        queryKey: ['orders'],
         queryFn: readOrdersByUser,
         enabled: !!userId
     });

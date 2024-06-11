@@ -96,12 +96,12 @@ function EventsDashboard() {
     };
 
     const { data: events, isLoading: readIsLoading } = useQuery({
-        queryKey: ['events', userId],
+        queryKey: ['events'],
         queryFn: readEventsByUser,
         enabled: !!userId
     });
     const { data: clubs } = useQuery({
-        queryKey: ['clubs', userId],
+        queryKey: ['clubs'],
         queryFn: readUserClubs,
         enabled: !!userId
     });
@@ -110,7 +110,7 @@ function EventsDashboard() {
         mutationFn: createEvent,
         onSuccess: () => {
             toast.success("Event created successfully.");
-            queryClient.invalidateQueries({ queryKey: ['events', userId] });
+            queryClient.invalidateQueries({ queryKey: ['events'] });
             setImage(undefined);
             resetCreate();
         },
@@ -123,7 +123,7 @@ function EventsDashboard() {
         mutationFn: editEvent,
         onSuccess: () => {
             toast.success("Event edited successfully.");
-            queryClient.invalidateQueries({ queryKey: ['events', userId] });
+            queryClient.invalidateQueries({ queryKey: ['events'] });
             setImage(undefined);
             resetEdit();
         },
@@ -136,7 +136,7 @@ function EventsDashboard() {
         mutationFn: deleteEvent,
         onSuccess: () => {
             toast.success("Event deleted successfully.");
-            queryClient.invalidateQueries({ queryKey: ['events', userId] });
+            queryClient.invalidateQueries({ queryKey: ['events'] });
             resetDelete();
         },
         onError: (error: any) => {
@@ -241,7 +241,7 @@ function EventsDashboard() {
                 </DialogContent>
             </Dialog>
             {readIsLoading ? <Loader2 className="w-full text-white text-center" /> :
-                events?.length === 0 ? <p className="text-white text-center">No events created yet</p> :
+                !events?.length ? <p className="text-white text-center">No events created yet</p> :
                     events?.map((event: EventSchema, index: number) => (
                         <div key={index} className="w-full h-[170px] md:h-[25%] flex flex-row gap-4">
                             <div className={`relative flex items-center justify-start w-[100%] md:hover:scale-105 transition-transform ease-in-out duration-300 h-full border-white border-4 bg-[url('/pattern2.png')] bg-cover bg-center`}>

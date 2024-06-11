@@ -15,7 +15,7 @@ import { useInView } from 'react-intersection-observer';
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useMutation, useInfiniteQuery } from "@tanstack/react-query";
+import { useMutation, useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import useStore from "@/actions/store";
 
@@ -43,12 +43,14 @@ function EventsDashboard() {
 
     const { register, handleSubmit, reset } = useForm<RegisterEvent>();
     const userId = useStore(state => state.user?._id);
+    const queryClient = useQueryClient();
 
     async function fetchItems({ pageParam = 1 }) {
         const response = await axios.get(`/api/events?page=${pageParam}`);
+        console.log(response.data)
         return response.data;
     }
-    const { data, error, status, fetchNextPage, isFetchingNextPage, refetch } = useInfiniteQuery({
+    const { data, error, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
         queryKey: ['events'],
         queryFn: fetchItems,
         getNextPageParam: (lastPage) => lastPage.nextPage,
@@ -63,7 +65,7 @@ function EventsDashboard() {
         mutationFn: registerEvent,
         onSuccess: (data) => {
             toast.success(data.message);
-            refetch()
+            queryClient.invalidateQueries({ queryKey: ['events'] });
             reset();
         },
         onError: (error: any) => {
@@ -83,12 +85,9 @@ function EventsDashboard() {
     }, [fetchNextPage, inView]);
     const items = data?.pages.flatMap(page => page.data) || [];
 
-
-    useEffect
-
     return (
         <Wrapper redirect="/user/home" title="EVENTS">
-            {items?.length === 0 && status === 'success' && <div className="text-center text-white">No events available</div>}
+            {!items?.length && status === 'success' && <div className="text-center text-white">No events available</div>}
             {status === 'pending' ? (
                 <Loader2 className="w-full text-white text-center" />
             ) : status === 'error' ? (

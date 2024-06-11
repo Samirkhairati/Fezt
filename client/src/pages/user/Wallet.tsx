@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { IUser } from "../../../../server/models/user.model";
 import { getAuth, signOut } from "firebase/auth";
 import firebase from "@/lib/firebase";
+import { useEffect } from "react";
 
 interface EventSchema {
     _id: string;
@@ -35,10 +36,11 @@ function Wallet() {
 
     async function readEventsByUser() {
         const response = await axios.get('/api/events/club', { params: { userId } });
+        console.log(response.data)
         return response.data;
     }
     const { data: events, isLoading } = useQuery({
-        queryKey: ['events', userId],
+        queryKey: ['events2'],
         queryFn: readEventsByUser,
         enabled: !!userId
     });
@@ -48,7 +50,7 @@ function Wallet() {
         return response.data;
     }
     const { data: user } = useQuery<IUser>({
-        queryKey: ['users', userId],
+        queryKey: ['users'],
         queryFn: getUser,
         enabled: !!userId
     });
@@ -63,6 +65,7 @@ function Wallet() {
         navigate('/')
     }
 
+    useEffect(() => {console.log('Wallet', events)}, [events])
 
     return (
         <div className="relative flex h-screen overflow-y-scroll pt-5 pb-10 px-5 w-full items-center justify-center bg-[url('/pattern1.png')] bg-cover bg-center">
@@ -89,7 +92,7 @@ function Wallet() {
                     <div className="transform rotate-[10deg] rounded-3xl absolute z-10 w-full h-full bg-[#2f2504]"></div>
                 </div>
                 <h2 className="text-center mb-3 text-3xl text-white font-bold opacity-80">YOUR EVENTS</h2>
-                {events?.length === 0 && !isLoading && <p className="text-center text-white opacity-50">No events found.</p>}
+                {!events?.length && !isLoading && <p className="text-center text-white opacity-50">No events found.</p>}
                 {isLoading ? <Loader2 className="w-full text-white text-center" /> :
                     events?.map((event: EventSchema) => (
                         <div key={event._id} className="w-full h-[170px] md:h-[25%] flex flex-row gap-4">

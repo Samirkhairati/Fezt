@@ -17,7 +17,7 @@ import {
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";
 
@@ -30,6 +30,7 @@ function Cart() {
     const setCart = useStore(state => state.setCart);
     const userId = useStore(state => state.user?._id);
     const items = cart?.map(item => ({ _id: item._id, quantity: item.quantity }));
+    const queryClient = useQueryClient();
 
     const placeOrder = async () => {
         const response = await axios.post('/api/orders', { vendor: vendorId, user: userId, items });
@@ -40,6 +41,7 @@ function Cart() {
         onSuccess: (data) => {
             toast.success(data.message);
             setCart([]);
+            queryClient.invalidateQueries({ queryKey: ['orders'] });
             navigate('/user/home')
         },
         onError: (error: any) => {
