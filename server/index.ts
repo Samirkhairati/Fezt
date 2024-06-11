@@ -1,4 +1,4 @@
-// PACKAGES ==========================================
+// PACKAGES ====================================================================================
 import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
@@ -6,18 +6,21 @@ import cors from 'cors';
 import path from 'path';
 import mongo from './config/mongo.config';
 import * as admin from 'firebase-admin';
-// HANDLERS ==========================================
+import nodemailer from 'nodemailer';
+// HANDLERS ====================================================================================
 import userRoutes from './routes/user.routes';
 import vendorRoutes from './routes/vendor.routes';
 import clubRoutes from './routes/club.routes';
 import eventRoutes from './routes/events.routes';
 import itemRoutes from './routes/items.routes';
 import orderRoutes from './routes/order.routes';
-// SETUP ==========================================
+import mailRoutes from './routes/mail.routes';
+// SETUP ====================================================================================
 dotenv.config();
 mongo()
 const app = express();
 const location = path.resolve();
+// FIREBASE ====================================================================================
 const serviceAccount = {
     type: process.env.FIREBASE_TYPE,
     project_id: process.env.FIREBASE_PROJECT_ID,
@@ -35,7 +38,15 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
 });
 export default admin
-// MIDDLEWARE ==========================================
+// MAIL ====================================================================================
+export const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user:process.env.MAIL_EMAIL,
+        pass: process.env.MAIL_PASSWORD
+    }
+});
+// MIDDLEWARE ====================================================================================
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
@@ -45,22 +56,21 @@ app.use(cors(
         credentials: true,
     }
 ));
-
-// ROUTES ==========================================
+// ROUTES ====================================================================================
 app.use("/api/users", userRoutes);
 app.use("/api/vendors", vendorRoutes);
 app.use("/api/clubs", clubRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/items", itemRoutes);
 app.use("/api/orders", orderRoutes);
-
-// BUILD ==========================================
+app.use("/api/mails", mailRoutes);
+// BUILD ====================================================================================
 app.use(express.static(path.join(location, '../client/dist')));
 app.get('*', (req, res) => {
     res.sendFile(path.join(location, '../client/dist/index.html'));
 });
 
-// TEST ==========================================
+// TEST ====================================================================================
 app.get('/', (req, res) => {
     res.send(`API is running on port ${process.env.PORT}...`);
 })
@@ -68,3 +78,5 @@ app.get('/', (req, res) => {
 app.listen(process.env.PORT || 6969, () => {
     console.log(`Server running on port ${process.env.PORT || 6969}`);
 });
+
+console.log(process.env.MAIL_EMAIL)
