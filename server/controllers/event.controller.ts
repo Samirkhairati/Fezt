@@ -92,10 +92,13 @@ const readEvents = handler(async (req: Request, res: Response) => {
 
 
 const readEventsByUser = handler(async (req: Request, res: Response) => {
-    const clubs: IClub[] = await Club.find({ user: req.query.userId });
-    const events = await Event.find({ club: { $in: clubs.map(club => club._id) } })
-        .populate('club');
-    res.status(200).json(events);
+    const user: IUser | null = await User.findById(req.query.userId);
+    if (!user) {
+        res.status(400).json({ message: 'User does not exist' });
+    } else {
+        const events: IEvent[] = await Event.find({ _id: { $in: user.events } });
+        res.status(200).json(events);
+    }
 }, '@readEventsByClub ERROR: ');
 
 const registerEvent = handler(async (req: any, res: Response) => {
