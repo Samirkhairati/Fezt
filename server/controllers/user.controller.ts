@@ -2,16 +2,11 @@ import { Request, Response } from "express";
 import handler from "../middleware/handler.middleware";
 import User, { IUser } from "../models/user.model";
 import { generateUserToken } from "../utils/token.util";
-import * as admin from 'firebase-admin';
-import credentials from '../credentials.json';
-
-//TODO: google access token check
-
-admin.initializeApp({
-    credential: admin.credential.cert(credentials as admin.ServiceAccount),
-});
+import admin from '../config/firebase.config';
 
 const loginUser = handler(async (req: Request, res: Response) => {
+    console.log('hiiiiiii')
+    console.log(process.env.FIREBASE_PRIVATE_KEY)
     const decodedToken = await admin.auth().verifyIdToken(req.body.token);
     const user: IUser | null = await User.findOne({ email: req.body.email });
     if (decodedToken.uid !== req.body.uid) return res.status(400).json({ message: 'Invalid token' });
