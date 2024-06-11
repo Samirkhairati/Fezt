@@ -3,12 +3,6 @@ import { Button } from '@/components/ui/button'
 
 function Start() {
 
-    // const handleGoogleLogout = async () => {
-    //   const auth = getAuth(firebase)
-    //   const result = await signOut(auth)
-    //   console.log(result)
-    //   await axios.post('/api/users/logout')
-    // }
     //TODO: Better home page
 
     return (

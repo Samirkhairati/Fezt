@@ -52,6 +52,7 @@ function UserLogin() {
                 if (response.data) {
                     toast.success("Logging in...");
                     setUser(response.data);
+                    localStorage.setItem('user', JSON.stringify(response.data));
                     navigate('/');
                 } else {
                     toast.success("Please fill out the form below to create an account.")
@@ -76,6 +77,7 @@ function UserLogin() {
             queryClient.invalidateQueries({ queryKey: ['users'] });
             toast.success("User created successfully.");
             setUser(data);
+            localStorage.setItem('user', JSON.stringify(data));
             navigate('/');
         },
         onError: (error: any) => {

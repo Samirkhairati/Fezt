@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { IUser } from "../../../../server/models/user.model";
+import { getAuth, signOut } from "firebase/auth";
+import firebase from "@/lib/firebase";
 
 interface EventSchema {
     _id: string;
@@ -52,9 +54,11 @@ function Wallet() {
     });
 
     const logout = async () => {
+        const auth = getAuth(firebase)
+        await signOut(auth)
         await axios.post('/api/users/logout');
         setUser(null);
-        //TODO: local storage logout for user
+        localStorage.removeItem('user');
         toast.success('Logged out successfully')
         navigate('/')
     }

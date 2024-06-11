@@ -11,7 +11,7 @@ function Home() {
     const logout = async () => {
         await axios.post('/api/vendors/logout');
         setVendor(null);
-        //TODO: local storage logout for vendor
+        localStorage.removeItem('vendor');
         toast.success('Logged out successfully')
         navigate('/')
     }

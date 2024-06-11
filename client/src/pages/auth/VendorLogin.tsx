@@ -34,6 +34,7 @@ function VendorLogin() {
     onSuccess: (data) => {
       toast.success("Vendor logged in successfully.");
       setVendor(data);
+      localStorage.setItem('vendor', JSON.stringify(data));
       navigate('/');
     },
     onError: (error: any) => {

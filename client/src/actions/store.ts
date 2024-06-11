@@ -41,7 +41,7 @@ interface Item {
 
 const useStore = create<Store>((set) => ({
 
-    user: null,
+    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null,
     setUser: (user) => set({ user }),
 
     vendor: null,

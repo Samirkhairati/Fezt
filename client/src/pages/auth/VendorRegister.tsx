@@ -65,6 +65,7 @@ function VendorRegister() {
             queryClient.invalidateQueries({ queryKey: ['vendors'] });
             toast.success("Vendor created successfully.");
             setVendor(data);
+            localStorage.setItem('vendor', JSON.stringify(data));
             navigate('/');
         },
         onError: (error: any) => {

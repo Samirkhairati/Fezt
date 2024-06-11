@@ -4,8 +4,6 @@ import { Outlet, useNavigate } from 'react-router-dom'
 
 function User() {
 
-    //TODO: Toast Redirect messages
-
     const user = useStore(state => state.user)
     const navigate = useNavigate()
     useEffect(() => {
@@ -15,9 +13,6 @@ function User() {
             navigate('/user/home')
         }
     }, [navigate, user])
-    useEffect(() => {
-        navigate('/user/home')
-    }, [navigate])
 
     return (
         <Outlet />

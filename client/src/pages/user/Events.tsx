@@ -82,6 +82,9 @@ function EventsDashboard() {
     }, [fetchNextPage, inView]);
     const items = data?.pages.flatMap(page => page.data) || [];
 
+
+    useEffect
+
     return (
         <Wrapper redirect="/user/home" title="EVENTS">
             {items?.length === 0 && status === 'success' && <div className="text-center text-white">No events available</div>}

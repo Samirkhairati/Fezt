@@ -11,9 +11,9 @@ function Start() {
 
   useEffect(() => {
     if (user) {
-      navigate('/user')
+      navigate('/user/home')
     } else if (vendor) {
-      navigate('/vendor')
+      navigate('/vendor/home')
     } else {
       navigate('/login')
     }
