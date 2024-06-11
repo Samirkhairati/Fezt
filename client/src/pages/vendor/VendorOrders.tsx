@@ -64,7 +64,7 @@ function VendorOrders() {
             {isLoading ? <Loader2 className="w-full text-white text-center" /> :
                 <>
                     <div className="h-10 w-full opacity-0 -mt-32">.</div>
-                    {orders1.length && <h2 className="text-center mt-5 -mb-10 text-xl text-white font-bold opacity-60 flex  items-center gap-1"><FaDollarSign className="text-sm" />ORDERED</h2>}
+                    {!!orders1.length && <h2 className="text-center mt-5 -mb-10 text-xl text-white font-bold opacity-60 flex  items-center gap-1"><FaDollarSign className="text-sm" />ORDERED</h2>}
                     {orders1?.map((order: Order) => (
                         <>
                             <OrderBill key={order._id} order={order} />
@@ -75,7 +75,7 @@ function VendorOrders() {
                             </div>
                         </>
                     ))}
-                    {orders2.length && <h2 className="text-center mt-5 -mb-10 text-xl text-white font-bold opacity-60 flex  items-center gap-1"><FaThumbsUp className="text-sm" />ACCEPTED</h2>}
+                    {!!orders2.length && <h2 className="text-center mt-5 -mb-10 text-xl text-white font-bold opacity-60 flex  items-center gap-1"><FaThumbsUp className="text-sm" />ACCEPTED</h2>}
                     {orders2?.map((order: Order) => (
                         <>
                             <OrderBill key={order._id} order={order} />
@@ -86,7 +86,7 @@ function VendorOrders() {
                             </div>
                         </>
                     ))}
-                    {orders3.length && <h2 className="text-center mt-5 -mb-10 text-xl text-white font-bold opacity-60 flex  items-center gap-1"><FaCheck className="text-sm" />READY</h2>}
+                    {!!orders3.length && <h2 className="text-center mt-5 -mb-10 text-xl text-white font-bold opacity-60 flex  items-center gap-1"><FaCheck className="text-sm" />READY</h2>}
                     {orders3?.map((order: Order) => (
                         <>
                             <OrderBill key={order._id} order={order} />
@@ -97,7 +97,7 @@ function VendorOrders() {
                             </div>
                         </>
                     ))}
-                    {orders4.length && <h2 className="text-center mt-5 -mb-10 text-xl text-white font-bold opacity-60 flex  items-center gap-1"><FaBoxOpen className="text-sm" />DELIVERED</h2>}
+                    {!!orders4.length && <h2 className="text-center mt-5 -mb-10 text-xl text-white font-bold opacity-60 flex  items-center gap-1"><FaBoxOpen className="text-sm" />DELIVERED</h2>}
                     {orders4?.map((order: Order) => (
                         <>
                             <OrderBill key={order._id} order={order} />

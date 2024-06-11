@@ -41,7 +41,6 @@ function UserLogin() {
     const [code, setCode] = useState<string>('');
 
     //TODO: Add User Login form validation
-    //TODO: Add BITS mail check
 
     const handleGoogleLogin = async () => {
         try {

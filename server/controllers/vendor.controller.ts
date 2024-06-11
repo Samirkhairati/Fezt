@@ -3,6 +3,8 @@ import handler from "../middleware/handler.middleware";
 import Vendor, { IVendor } from "../models/vendor.model";
 import { generateVendorToken } from "../utils/token.util";
 import bcrypt from 'bcryptjs';
+import Verify from "../models/verify.model";
+import { verifyMail } from "../utils/mail.util";
 
 const loginVendor = handler(async (req: Request, res: Response) => {
 
@@ -27,8 +29,9 @@ const loginVendor = handler(async (req: Request, res: Response) => {
 }, '@loginVendor ERROR: ');
 
 const createVendor = handler(async (req: Request, res: Response) => {
-    const vendor: IVendor | null = await Vendor.findOne({ email: req.body.email });
-    if (vendor) res.status(400).json({ message: 'Vendor already exists' });
+    const verify = await Verify.findById(req.body.codeId);
+    if (!verify) return res.status(400).json({ message: 'Invalid code' });
+    if (verify.code.toString() !== req.body.code) return res.status(400).json({ message: 'Invalid code' });
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -54,6 +57,18 @@ const createVendor = handler(async (req: Request, res: Response) => {
     })
 }, '@createVendor ERROR: ');
 
+const verifyVendor = handler(async (req: Request, res: Response) => {
+    const vendor: IVendor | null = await Vendor.findOne({ email: req.body.email });
+    if (vendor) return res.status(400).json({ message: 'Vendor already exists' });
+    if (req.body.email.endsWith('bits-pilani.ac.in')) return res.status(400).json({ message: 'You are not allowed to make a vendor account' })
+    const newVerify = new Verify({
+        code: Math.floor(100000 + Math.random() * 900000),
+    });
+    const createdVerify = await newVerify.save();
+    verifyMail(req.body.email, createdVerify.code.toString())
+    return res.json({ codeId: createdVerify._id })
+}, '@verifyVendor ERROR: ');
+
 const logoutVendor = handler(async (req: Request, res: Response) => {
 
     res.cookie('jwt', '', {
@@ -74,4 +89,4 @@ const getVendor = handler(async (req: Request, res: Response) => {
     res.json(vendor)
 }, '@getUser ERROR:')
 
-export { loginVendor, logoutVendor, createVendor, readVendors, getVendor }
+export { loginVendor, logoutVendor, createVendor, readVendors, getVendor, verifyVendor }

@@ -52,5 +52,3 @@ const useStore = create<Store>((set) => ({
 }))
 
 export default useStore
-
-//TODO: get user/vendor from local storage

@@ -1,10 +1,13 @@
 import express from 'express';
-import { createVendor, loginVendor, logoutVendor, readVendors, getVendor } from '../controllers/vendor.controller';
+import { createVendor, loginVendor, logoutVendor, readVendors, getVendor, verifyVendor } from '../controllers/vendor.controller';
 const router = express.Router();
 
 router.route('/')
     .post(createVendor)
     .get(readVendors)
+
+router.route('/verify')
+    .post(verifyVendor)
 
 router.route('/login')
     .post(loginVendor)
