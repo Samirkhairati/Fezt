@@ -104,4 +104,3 @@ app.get('/', (req, res) => {
 app.listen(process.env.PORT || 6969, () => {
     console.log(`Server running on port ${process.env.PORT || 6969}`);
 });
-console.log(process.env.MAIL_EMAIL);

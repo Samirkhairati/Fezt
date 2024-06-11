@@ -69,14 +69,10 @@ app.use(express.static(path.join(location, '../client/dist')));
 app.get('*', (req, res) => {
     res.sendFile(path.join(location, '../client/dist/index.html'));
 });
-
 // TEST ====================================================================================
 app.get('/', (req, res) => {
     res.send(`API is running on port ${process.env.PORT}...`);
 })
-
 app.listen(process.env.PORT || 6969, () => {
     console.log(`Server running on port ${process.env.PORT || 6969}`);
 });
-
-console.log(process.env.MAIL_EMAIL)

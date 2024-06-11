@@ -21,7 +21,9 @@ interface CreateUser {
     image: string,
     phone: string,
     address: string,
-    bits: string
+    bits: string,
+    codeId: string,
+    code: number
 }
 
 interface GoogleUser {
@@ -36,6 +38,7 @@ function UserLogin() {
     const { register, handleSubmit, formState: { errors, isLoading } } = useForm<CreateUser>();
     const [google, setGoogle] = useState<boolean>(false);
     const [userInfo, setUserInfo] = useState<GoogleUser>({ email: '', photoURL: '' });
+    const [code, setCode] = useState<string>('');
 
     //TODO: Add User Login form validation
     //TODO: Add BITS mail check
@@ -53,13 +56,14 @@ function UserLogin() {
                 token: token,
                 uid: uid
             }).then((response) => {
-                if (response.data) {
+                if (!response.data.codeId) {
                     toast.success("Logging in...");
                     setUser(response.data);
                     localStorage.setItem('user', JSON.stringify(response.data));
                     navigate('/');
                 } else {
-                    toast.success("Please fill out the form below to create an account.")
+                    setCode(response.data.codeId)
+                    toast.success("Fill these details to create an account. Verification code has been sent to your mail.")
                     setGoogle(true);
                 }
             }).catch((error) => {
@@ -102,7 +106,7 @@ function UserLogin() {
                         <FaRegUserCircle className="h-8 w-8 text-gray-50" />
                         <span className="text-4xl font-bold text-gray-50">Student Login</span>
                     </div>
-                    <Button variant="outline" className="w-full" onClick={handleGoogleLogin}>
+                    <Button disabled={!!google} variant="outline" className="w-full" onClick={handleGoogleLogin}>
                         <FaGoogle className="mr-2 h-4 w-4" />
                         Login with Google
                     </Button>
@@ -159,6 +163,21 @@ function UserLogin() {
                             />
                             {errors.bits && <p className="text-red-500">BITS ID is required</p>}
                         </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="code" className="text-gray-50">
+                                Verification Code
+                            </Label>
+                            <Input
+                                type="number"
+                                disabled={!google}
+                                id="code"
+                                placeholder="000000"
+                                className="w-full"
+                                {...register("code", { required: true })}
+                            />
+                            {errors.phone && <p className="text-red-500">Phone number is required</p>}
+                        </div>
+                        <input type="hidden" value={code} {...register('codeId')} />
                         <Button disabled={isLoading} type="submit" className="bg-slate-700 w-full">
                             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                             Login as Student
