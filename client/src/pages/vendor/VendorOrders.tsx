@@ -63,7 +63,7 @@ function VendorOrders() {
             {!isLoading && !orders?.length && <div className="text-center text-gray-500 mt-16">No orders found</div>}
             {isLoading ? <Loader2 className="w-full text-white text-center" /> :
                 <>
-                    <div className="h-10 w-full opacity-0 -mt-32">.</div>
+                    <div className="h-10 w-full opacity-0 -mt-24">.</div>
                     {!!orders1.length && <h2 className="text-center mt-5 -mb-10 text-xl text-white font-bold opacity-60 flex  items-center gap-1"><FaDollarSign className="text-sm" />ORDERED</h2>}
                     {orders1?.map((order: Order) => (
                         <>
