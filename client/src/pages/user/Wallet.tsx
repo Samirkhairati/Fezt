@@ -75,7 +75,7 @@ function Wallet() {
                 <div className="h-[250px] flex w-full relative my-10 flex-shrink-0">
                     <div className="border-2 border-black border-opacity-45 rounded-3xl absolute z-30 w-full h-[250px] justify-between items-center flex px-8 md:px-12 bg-[#e6da99]">
                         <div>
-                            <p className="text-black opacity-50 leading-tight text-4xl md:text-6xl font-bold mb-2">₹ {user?.balance}</p>
+                            <p className="text-black opacity-50 leading-tight text-4xl md:text-6xl font-bold mb-2">₹{user?.balance}</p>
                             <p className="text-black opacity-40 leading-tight text-lg font-bold">{user?.name}</p>
                             <p className="text-black opacity-40 leading-tight font-bold">{user?.bits}</p>
                             <p className="text-black opacity-30 leading-tight text-[10px]">{user?.email}</p>
@@ -89,6 +89,7 @@ function Wallet() {
                     <div className="transform rotate-[10deg] rounded-3xl absolute z-10 w-full h-full bg-[#2f2504]"></div>
                 </div>
                 <h2 className="text-center mb-3 text-3xl text-white font-bold opacity-80">YOUR EVENTS</h2>
+                {events?.length === 0 && !isLoading && <p className="text-center text-white opacity-50">No events found.</p>}
                 {isLoading ? <Loader2 className="w-full text-white text-center" /> :
                     events?.map((event: EventSchema) => (
                         <div key={event._id} className="w-full h-[170px] md:h-[25%] flex flex-row gap-4">

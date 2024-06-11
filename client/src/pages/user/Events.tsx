@@ -48,7 +48,7 @@ function EventsDashboard() {
         const response = await axios.get(`/api/events?page=${pageParam}`);
         return response.data;
     }
-    const { data, error, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
+    const { data, error, status, fetchNextPage, isFetchingNextPage, refetch } = useInfiniteQuery({
         queryKey: ['events'],
         queryFn: fetchItems,
         getNextPageParam: (lastPage) => lastPage.nextPage,
@@ -63,6 +63,7 @@ function EventsDashboard() {
         mutationFn: registerEvent,
         onSuccess: (data) => {
             toast.success(data.message);
+            refetch()
             reset();
         },
         onError: (error: any) => {

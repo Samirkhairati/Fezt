@@ -11,33 +11,40 @@ const loginUser = handler(async (req: Request, res: Response) => {
     if (user) {
         generateUserToken(res, user._id)
         res.json(user)
-    } else res.json();
+    } else if (!req.body.email.endsWith('bits-pilani.ac.in')) res.status(400).json({ message: 'Please use a BITS email address' });
+    else {
+        res.json();
+    }
 
 }, '@loginUser ERROR: ');
 
 const createUser = handler(async (req: Request, res: Response) => {
-    const newUser: IUser = new User({
-        name: req.body.name,
-        email: req.body.email,
-        image: req.body.image,
-        phone: req.body.phone,
-        address: req.body.address,
-        bits: req.body.bits,
-        balance: 12000,
-    });
-    const createdUser = await newUser.save();
-    generateUserToken(res, createdUser._id)
-    res.json({
-        name: createdUser.name,
-        email: createdUser.email,
-        image: createdUser.image,
-        phone: createdUser.phone,
-        address: createdUser.address,
-        bits: createdUser.bits,
-        _id: createdUser._id,
-        balance: createdUser.balance,
-    })
-}, '@creatUser ERROR: ');
+    if (!req.body.email.endsWith('bits-pilani.ac.in')) res.status(400).json({ message: 'Please use a BITS email address' });
+    else {
+        const newUser: IUser = new User({
+            name: req.body.name,
+            email: req.body.email,
+            image: req.body.image,
+            phone: req.body.phone,
+            address: req.body.address,
+            bits: req.body.bits,
+            balance: 12000,
+        });
+        const createdUser = await newUser.save();
+        generateUserToken(res, createdUser._id)
+        res.json({
+            name: createdUser.name,
+            email: createdUser.email,
+            image: createdUser.image,
+            phone: createdUser.phone,
+            address: createdUser.address,
+            bits: createdUser.bits,
+            _id: createdUser._id,
+            balance: createdUser.balance,
+        })
+    }
+    
+}, '@createUser ERROR: ');
 
 const logoutUser = handler(async (req: Request, res: Response) => {
 
