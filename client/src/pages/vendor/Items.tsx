@@ -147,6 +147,10 @@ function Items() {
 
         try {
             setFileLoading(true)
+            if (e.target.files![0].size > 1024 * 1024) {
+                toast.error("File size should be less than 1MB")
+                return;
+            }
             const file = await axios.post('https://api.cloudinary.com/v1_1/dkytadhg9/auto/upload', data)
             setImage(file.data.secure_url);
         } catch (error) {
