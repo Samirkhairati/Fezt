@@ -45,9 +45,13 @@ function UserLogin() {
             const provider = new GoogleAuthProvider();
             const auth = getAuth(firebase);
             const result = await signInWithPopup(auth, provider);
+            const token = await result.user.getIdToken();
+            const uid = result.user.uid
             setUserInfo({ email: result.user.email!, photoURL: result.user.photoURL! });
             axios.post('/api/users/login', {
-                email: result.user.email
+                email: result.user.email,
+                token: token,
+                uid: uid
             }).then((response) => {
                 if (response.data) {
                     toast.success("Logging in...");

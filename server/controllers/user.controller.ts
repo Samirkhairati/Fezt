@@ -2,16 +2,24 @@ import { Request, Response } from "express";
 import handler from "../middleware/handler.middleware";
 import User, { IUser } from "../models/user.model";
 import { generateUserToken } from "../utils/token.util";
+import * as admin from 'firebase-admin';
+import credentials from '../credentials.json';
 
 //TODO: google access token check
 
-const loginUser = handler(async (req: Request, res: Response) => {
+admin.initializeApp({
+    credential: admin.credential.cert(credentials as admin.ServiceAccount),
+});
 
+const loginUser = handler(async (req: Request, res: Response) => {
+    const decodedToken = await admin.auth().verifyIdToken(req.body.token);
     const user: IUser | null = await User.findOne({ email: req.body.email });
+    if (decodedToken.uid !== req.body.uid) return res.status(400).json({ message: 'Invalid token' });
     if (user) {
         generateUserToken(res, user._id)
-        res.json(user)
-    } else if (!req.body.email.endsWith('bits-pilani.ac.in')) res.status(400).json({ message: 'Please use a BITS email address' });
+        return res.json(user)
+    }
+    if (!req.body.email.endsWith('bits-pilani.ac.in')) res.status(400).json({ message: 'Please use a BITS email address' });
     else {
         res.json();
     }
@@ -19,7 +27,9 @@ const loginUser = handler(async (req: Request, res: Response) => {
 }, '@loginUser ERROR: ');
 
 const createUser = handler(async (req: Request, res: Response) => {
-    if (!req.body.email.endsWith('bits-pilani.ac.in')) res.status(400).json({ message: 'Please use a BITS email address' });
+    const decodedToken = await admin.auth().verifyIdToken(req.body.token);
+    if (decodedToken.uid !== req.body.uid) return res.status(400).json({ message: 'Invalid token' });
+    if (!req.body.email.endsWith('bits-pilani.ac.in')) return res.status(400).json({ message: 'Please use a BITS email address' });
     else {
         const newUser: IUser = new User({
             name: req.body.name,
@@ -43,7 +53,7 @@ const createUser = handler(async (req: Request, res: Response) => {
             balance: createdUser.balance,
         })
     }
-    
+
 }, '@createUser ERROR: ');
 
 const logoutUser = handler(async (req: Request, res: Response) => {
@@ -61,4 +71,4 @@ const getUser = handler(async (req: Request, res: Response) => {
     res.json(user)
 }, '@getUser ERROR:')
 
-export { loginUser, logoutUser, createUser, getUser}
+export { loginUser, logoutUser, createUser, getUser }

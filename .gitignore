@@ -8,3 +8,4 @@ server/dist
 client/dist
 server/.env
 client/.env
+server/credentials.json
