@@ -76,7 +76,7 @@ function Wallet() {
                     <button onClick={() => logout()} className="h-full opacity-80"><LuLogOut className="text-4xl text-white" /></button>
                 </div>
                 <div className="h-[250px] flex w-full relative my-10 flex-shrink-0">
-                    <div className="border-2 border-black border-opacity-45 rounded-3xl absolute z-30 w-full h-[250px] justify-between items-center flex px-8 md:px-12 bg-[#e6da99]">
+                    <div className="border-2 border-black border-opacity-45 rounded-3xl absolute z-30 w-full h-[250px] justify-between items-center flex px-8 md:px-12 bg-[url('/pattern3.png')] bg-cover bg-center bg-opacity-10">
                         <div>
                             <p className="text-black opacity-50 leading-tight text-4xl md:text-6xl font-bold mb-2">₹{user?.balance}</p>
                             <p className="text-black opacity-40 leading-tight text-lg font-bold">{user?.name}</p>
@@ -85,7 +85,7 @@ function Wallet() {
                             <p className="text-black opacity-30 leading-tight text-[10px]">{user?.address}</p>
                             <p className="text-black opacity-30 leading-tight text-[10px]">{user?.phone}</p>
                         </div>
-                        <img className="w-24 h-24 rounded-full grayscale opacity-35" src={user?.image} alt="User Avatar" />
+                        <img className="w-24 h-24 rounded-full grayscale opacity-45" src={user?.image} alt="User Avatar" />
 
                     </div>
                     <div className="transform rotate-[5deg] rounded-3xl absolute z-20 w-full h-full bg-[#685807]"></div>

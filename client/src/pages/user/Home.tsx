@@ -15,7 +15,7 @@ function Home() {
                     <Link to='/user/wallet' className="w-[40%] md:hover:scale-105 transition-transform ease-in-out duration-300 relative h-full border-white border-4 bg-[url('/pattern3.png')] bg-cover bg-center font-black">
                         <div className="absolute transofrm -rotate-[90deg] bottom-4 left-5 -translate-y-1/4 -translate-x-1/4 flex flex-col">
                             <div className="text-4xl text-white opacity-80">WALLET</div>
-                            <div className="mt-1 text-xs text-white opacity-65">CHECK YOUR<br />BALANCE<br /> & PROFILE</div>
+                            <div className="mt-1 text-[10px] text-white opacity-60">CHECK YOUR<br />BALANCE & PROFILE<br/>LOGOUT</div>
                         </div>
                         <img className='absolute top-0 right-0 transform rotate-[20deg] translate-x-[30%]' src='/prop2.png' />
                     </Link>
