@@ -1,12 +1,12 @@
 import { transporter } from '../index';
 
-const verifyMail = (to: string, code: string) => {
+const verifyMail = (to: string, code: string, subject: string) => {
     console.log('Sending email');
     transporter.sendMail(
         {
             from: 'dc0xdx@gmail.com',
             to: to,
-            subject: 'Fezt - Verification Code for creating a USER',
+            subject: subject,
             html: `<h1>${code}</h1>`
         }
         , function (error, info) {

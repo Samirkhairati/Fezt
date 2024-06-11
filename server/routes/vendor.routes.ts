@@ -1,5 +1,5 @@
 import express from 'express';
-import { createVendor, loginVendor, logoutVendor, readVendors, getVendor, verifyVendor } from '../controllers/vendor.controller';
+import { createVendor, loginVendor, logoutVendor, readVendors, getVendor, verifyVendor, forgotPassword, resetPassword } from '../controllers/vendor.controller';
 const router = express.Router();
 
 router.route('/')
@@ -8,6 +8,12 @@ router.route('/')
 
 router.route('/verify')
     .post(verifyVendor)
+
+router.route('/forgot')
+    .post(forgotPassword)
+
+router.route('/reset')
+    .post(resetPassword)
 
 router.route('/login')
     .post(loginVendor)

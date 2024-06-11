@@ -2,8 +2,7 @@
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { FaRegUserCircle } from "react-icons/fa";
-import { FaGoogle } from "react-icons/fa";
+import { FaGoogle, FaUser } from "react-icons/fa";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -101,9 +100,9 @@ function UserLogin() {
             <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
             <div className="flex flex-col items-center gap-8 relative z-10">
                 <div className="flex flex-col items-center gap-8 relative z-10 w-full max-w-md px-4">
-                    <div className="flex items-center gap-2 mt-8">
-                        <FaRegUserCircle className="h-8 w-8 text-gray-50" />
-                        <span className="text-4xl font-bold text-gray-50">Student Login</span>
+                    <div className="flex items-center gap-2 mt-8 font-black text-gray-50 opacity-80">
+                        <FaUser className="h-8 w-8 text-gray-50" />
+                        <span className="text-4xl ">STUDENT LOGIN</span>
                     </div>
                     <Button disabled={!!google} variant="outline" className="w-full" onClick={handleGoogleLogin}>
                         <FaGoogle className="mr-2 h-4 w-4" />
@@ -177,7 +176,7 @@ function UserLogin() {
                             {errors.phone && <p className="text-red-500">Phone number is required</p>}
                         </div>
                         <input type="hidden" value={code} {...register('codeId')} />
-                        <Button disabled={isLoading} type="submit" className="bg-slate-700 w-full">
+                        <Button disabled={isLoading} type="submit" className="bg-violet-700 w-full">
                             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                             Login as Student
                         </Button>

@@ -106,9 +106,9 @@ function VendorRegister() {
             <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
             <div className="flex flex-col items-center gap-8 relative z-10">
                 <div className="flex flex-col items-center gap-8 relative z-10 w-full max-w-md px-4">
-                    <div className="flex items-center gap-2 mt-8">
-                        <MdSell className="h-8 w-8 text-gray-50" />
-                        <span className="text-4xl font-bold text-gray-50">Vendor Sign Up</span>
+                    <div className="flex items-center gap-2 mt-8 opacity-85">
+                        <MdSell className="h-8 w-8 text-gray-50 " />
+                        <span className="text-4xl font-black text-gray-50">VENDOR SIGNUP</span>
                     </div>
                     {code === '' ?
                         <>
@@ -207,7 +207,7 @@ function VendorRegister() {
                                         className="w-full"
                                         {...register("code", { required: true })}
                                     />
-                                    {errors.email && <p className="text-red-500">Email is required</p>}
+                                    {errors.code && <p className="text-red-500">Email is required</p>}
                                 </div>
                                 <input type="hidden" value={code} {...register('codeId')} />
                                 <input type="hidden" value={mail} {...register('email')} />

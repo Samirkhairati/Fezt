@@ -4,6 +4,7 @@ import UserLogin from './pages/auth/UserLogin'
 import VendorLogin from './pages/auth/VendorLogin'
 import Login from './pages/auth/Login'
 import VendorRegister from './pages/auth/VendorRegister'
+import ForgotPassword from './pages/auth/ForgotPassword'
 // USER ========================================================
 import User from './pages/user/User'
 import Events from './pages/user/Events'
@@ -42,6 +43,7 @@ const router = createBrowserRouter(
       <Route path="login/user" element={<UserLogin />} />
       <Route path="login/vendor" element={<VendorLogin />} />
       <Route path="register" element={<VendorRegister />} />
+      <Route path="forgot" element={<ForgotPassword />} />
 
       <Route path="user" element={<User />} >
         <Route path="home" element={<Home />} />

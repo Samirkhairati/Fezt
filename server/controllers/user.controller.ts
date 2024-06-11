@@ -21,7 +21,7 @@ const loginUser = handler(async (req: Request, res: Response) => {
             user: req.body.userId,
         });
         const createdVerify = await newVerify.save();
-        verifyMail(req.body.email, createdVerify.code.toString())
+        verifyMail(req.body.email, createdVerify.code.toString(), 'Fezt - Verification Code for creating a USER')
         return res.json({ codeId: createdVerify._id })
     }
 

@@ -51,9 +51,9 @@ function VendorLogin() {
       <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
       <div className="flex flex-col items-center gap-8 relative z-10">
         <div className="flex flex-col items-center gap-8 relative z-10 w-full max-w-md px-4">
-          <div className="flex items-center gap-2 mt-8">
+          <div className="flex items-center gap-2 mt-8 font-black text-gray-50 opacity-85">
             <MdSell className="h-8 w-8 text-gray-50" />
-            <span className="text-4xl font-bold text-gray-50">Vendor Login</span>
+            <span className="text-4xl text-gray-50">VENDOR LOGIN</span>
           </div>
           <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
             <div className="space-y-2">
@@ -81,7 +81,8 @@ function VendorLogin() {
               />
               {errors.password && <p className="text-red-500">Password is required</p>}
             </div>
-            <p className="text-white">Don't have an account? <Link to="/register" className="text-violet-400">Sign up</Link></p>
+            <p className="text-white leading-none">Don't have an account? <Link to="/register" className="text-violet-400">Sign up</Link></p>
+            <p className="text-white leading-none">Forgot your password? <Link to="/forgot" className="text-violet-400">Reset it</Link></p>
             <Button disabled={isPending} type="submit" className="bg-violet-700 w-full">
               {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Login as Vendor

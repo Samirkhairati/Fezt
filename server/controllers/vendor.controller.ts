@@ -65,9 +65,41 @@ const verifyVendor = handler(async (req: Request, res: Response) => {
         code: Math.floor(100000 + Math.random() * 900000),
     });
     const createdVerify = await newVerify.save();
-    verifyMail(req.body.email, createdVerify.code.toString())
+    verifyMail(req.body.email, createdVerify.code.toString(), 'Fezt - Verification Code for creating a VENDOR')
     return res.json({ codeId: createdVerify._id })
 }, '@verifyVendor ERROR: ');
+
+const forgotPassword = handler(async (req: Request, res: Response) => {
+    const vendor: IVendor | null = await Vendor.findOne({ email: req.body.email });
+    if (!vendor) return res.status(400).json({ message: 'Vendor does not exist' });
+    const newVerify = new Verify({
+        code: Math.floor(100000 + Math.random() * 900000),
+    });
+    const createdVerify = await newVerify.save();
+    verifyMail(req.body.email, createdVerify.code.toString(), 'Fezt - Verification Code for resetting password')
+    return res.json({ codeId: createdVerify._id })
+}, '@verifyVendor ERROR: ');
+
+const resetPassword = handler(async (req: Request, res: Response) => {
+    const verify = await Verify.findById(req.body.codeId);
+    if (!verify) return res.status(400).json({ message: 'Invalid code' });
+    if (verify.code.toString() !== req.body.code) return res.status(400).json({ message: 'Invalid code' });
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const vendor: IVendor = await Vendor.findOne({ email: req.body.email }) as IVendor;
+    vendor.password = hashedPassword;
+    const updatedVendor = await vendor.save();
+    generateVendorToken(res, updatedVendor._id)
+    res.json({
+        name: updatedVendor.name,
+        email: updatedVendor.email,
+        image: updatedVendor.image,
+        phone: updatedVendor.phone,
+        address: updatedVendor.address,
+        _id: updatedVendor._id,
+    })
+}, '@resetPassword ERROR: ');
 
 const logoutVendor = handler(async (req: Request, res: Response) => {
 
@@ -89,4 +121,4 @@ const getVendor = handler(async (req: Request, res: Response) => {
     res.json(vendor)
 }, '@getUser ERROR:')
 
-export { loginVendor, logoutVendor, createVendor, readVendors, getVendor, verifyVendor }
+export { loginVendor, logoutVendor, createVendor, readVendors, getVendor, verifyVendor, forgotPassword, resetPassword }
