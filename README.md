@@ -58,11 +58,58 @@ This setup ensures an efficient and user-friendly system for managing campus act
 
 ## Usage
 For the installation,
-```npm install```
-```npm install --prefix client```
-```npm install --prefix server```
+```
+npm install
+npm install --prefix client
+npm install --prefix server
+```
 For Development, run this in the root folder (sets up both the frontend and backend)
-```npm run test```
+```
+npm run test
+```
 For Production, run this in the root folder (builds the frontend and serves it with the backend)
-```npm run full```
+```
+npm run full
+```
 
+## env
+
+# server/.env
+```
+# MongoDB configuration
+MONGO=
+
+# Redis configuration
+REDIS=
+
+# JWT secret
+JWT=
+
+# Firebase configuration
+FIREBASE_TYPE=
+FIREBASE_PROJECT_ID=
+FIREBASE_PRIVATE_KEY_ID=
+FIREBASE_PRIVATE_KEY=
+FIREBASE_CLIENT_EMAIL=
+FIREBASE_CLIENT_ID=
+FIREBASE_AUTH_URI=
+FIREBASE_TOKEN_URI=
+FIREBASE_AUTH_PROVIDER_X509_CERT_URL=
+FIREBASE_CLIENT_X509_CERT_URL=
+FIREBASE_UNIVERSE_DOMAIN=
+
+# Mail configuration
+MAIL_PASSWORD=
+MAIL_EMAIL=
+```
+
+# client/.env
+```
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+VITE_FIREBASE_MEASUREMENT_ID=
+```
