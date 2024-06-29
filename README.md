@@ -1,4 +1,4 @@
-# Fezt
+# 🎊 Fezt 
 
 ### Overview
 Fezt is a platform designed to streamline event management and item purchases within a campus environment. The frontend is developed using React and Vite, while the backend is built with Express. MongoDB serves as the database, and TypeScript is used throughout the codebase.
