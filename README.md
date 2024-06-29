@@ -55,6 +55,7 @@ This setup ensures an efficient and user-friendly system for managing campus act
 5. React Hook Form
 6. React Query
 7. Node mailer
+8. Firebase (authentication)
 
 ## Usage
 For the installation,
