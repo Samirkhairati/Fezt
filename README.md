@@ -3,6 +3,16 @@
 ### Overview
 Fezt is a platform designed to streamline event management and item purchases within a campus environment. The frontend is developed using React and Vite, while the backend is built with Express. MongoDB serves as the database, and TypeScript is used throughout the codebase.
 
+## Screenshots
+
+<img width="584" alt="image" src="https://github.com/Samirkhairati/Fezt/assets/34453746/60e424ef-76c1-4149-a850-0823c56c06a3">
+<img width="560" alt="image" src="https://github.com/Samirkhairati/Fezt/assets/34453746/df3ca404-be30-4700-9ce9-7aa11a6ecd83">
+<img width="533" alt="image" src="https://github.com/Samirkhairati/Fezt/assets/34453746/e15be335-d6fb-488f-969d-110b07a27ae9">
+<img width="508" alt="image" src="https://github.com/Samirkhairati/Fezt/assets/34453746/7289cc98-026b-464a-89f7-8aa439eabd62">
+<img width="496" alt="image" src="https://github.com/Samirkhairati/Fezt/assets/34453746/3dec2e15-ed31-49e4-8895-e14dfe63eea0">
+<img width="557" alt="image" src="https://github.com/Samirkhairati/Fezt/assets/34453746/6962d98a-51ed-4c7b-bdb9-1bec6946663a">
+<img width="538" alt="image" src="https://github.com/Samirkhairati/Fezt/assets/34453746/82742bd6-d592-4130-8b8b-0803e9f6abc6">
+
 ### CRUD Functionality
 - **User Types**: There are two types of users: students and vendors.
 - **Student Authentication**: Students can log in via Google OAuth, restricted to their BITS ID.
@@ -55,16 +65,4 @@ For Development, run this in the root folder (sets up both the frontend and back
 ```npm run test```
 For Production, run this in the root folder (builds the frontend and serves it with the backend)
 ```npm run full```
-
-## Screenshots
-
-<img width="584" alt="image" src="https://github.com/Samirkhairati/Fezt/assets/34453746/60e424ef-76c1-4149-a850-0823c56c06a3">
-<img width="560" alt="image" src="https://github.com/Samirkhairati/Fezt/assets/34453746/df3ca404-be30-4700-9ce9-7aa11a6ecd83">
-<img width="533" alt="image" src="https://github.com/Samirkhairati/Fezt/assets/34453746/e15be335-d6fb-488f-969d-110b07a27ae9">
-<img width="508" alt="image" src="https://github.com/Samirkhairati/Fezt/assets/34453746/7289cc98-026b-464a-89f7-8aa439eabd62">
-<img width="496" alt="image" src="https://github.com/Samirkhairati/Fezt/assets/34453746/3dec2e15-ed31-49e4-8895-e14dfe63eea0">
-<img width="557" alt="image" src="https://github.com/Samirkhairati/Fezt/assets/34453746/6962d98a-51ed-4c7b-bdb9-1bec6946663a">
-<img width="538" alt="image" src="https://github.com/Samirkhairati/Fezt/assets/34453746/82742bd6-d592-4130-8b8b-0803e9f6abc6">
-
-
 
